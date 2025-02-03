@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Copy, Quote } from "lucide-react";
+import { Loader2, Copy, Quote, Share2 } from "lucide-react";
 
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
@@ -56,6 +56,27 @@ const WisdomGenerator = () => {
     });
   };
 
+  const shareWisdom = async () => {
+    try {
+      await navigator.share({
+        text: wisdom,
+        title: "Stoic Wisdom",
+      });
+      toast({
+        title: "Shared!",
+        description: "Wisdom has been shared successfully",
+      });
+    } catch (error) {
+      if ((error as Error).name !== 'AbortError') {
+        toast({
+          title: "Error",
+          description: "Unable to share wisdom",
+          variant: "destructive",
+        });
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-2xl w-full p-6 space-y-8">
@@ -106,14 +127,24 @@ const WisdomGenerator = () => {
               <p className="font-serif text-lg text-sage-800 italic">
                 {wisdom}
               </p>
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={copyToClipboard}
-                className="flex-shrink-0"
-              >
-                <Copy className="h-4 w-4" />
-              </Button>
+              <div className="flex flex-col gap-2">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={copyToClipboard}
+                  className="flex-shrink-0"
+                >
+                  <Copy className="h-4 w-4" />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={shareWisdom}
+                  className="flex-shrink-0"
+                >
+                  <Share2 className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           </Card>
         )}
