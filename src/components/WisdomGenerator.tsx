@@ -89,15 +89,15 @@ const WisdomGenerator = () => {
     <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-2xl w-full p-6 space-y-8">
         <div className="text-center space-y-4">
-          <h1 className="font-serif text-4xl md:text-5xl text-sage-800 font-semibold">
+          <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
             What Would Seneca Do?
           </h1>
-          <p className="text-sage-600 text-lg">
+          <p className="text-muted-foreground text-lg">
             Modern problems require ancient solutions
           </p>
         </div>
 
-        <Card className="p-6 bg-white/80 backdrop-blur">
+        <Card className="p-6 bg-background/80 backdrop-blur border">
           <Textarea
             placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')"
             value={input}
@@ -108,7 +108,7 @@ const WisdomGenerator = () => {
           <div className="flex flex-col sm:flex-row gap-3">
             <Button
               onClick={() => generateWisdom(input)}
-              className="flex-1 bg-sage-600 hover:bg-sage-700"
+              className="flex-1"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -120,7 +120,7 @@ const WisdomGenerator = () => {
             <Button
               onClick={() => generateWisdom()}
               variant="outline"
-              className="flex-1 border-sage-200 hover:bg-sage-50"
+              className="flex-1"
               disabled={isLoading}
             >
               <Quote className="mr-2 h-4 w-4" />
@@ -130,9 +130,9 @@ const WisdomGenerator = () => {
         </Card>
 
         {wisdom && (
-          <Card className="p-6 bg-white/80 backdrop-blur animate-fade-up">
+          <Card className="p-6 bg-background/80 backdrop-blur border animate-fade-up">
             <div className="flex justify-between items-start gap-4">
-              <p className="font-serif text-lg text-sage-800 italic">
+              <p className="font-serif text-lg text-foreground italic">
                 {wisdom}
               </p>
               <div className="flex flex-col gap-2">
@@ -166,10 +166,10 @@ const WisdomGenerator = () => {
               </DialogDescription>
             </DialogHeader>
             <div className="mt-4">
-              <p className="font-serif text-lg text-sage-800 italic mb-4">{wisdom}</p>
+              <p className="font-serif text-lg text-foreground italic mb-4">{wisdom}</p>
               <Button 
                 onClick={copyToClipboard} 
-                className="w-full bg-sage-600 hover:bg-sage-700"
+                className="w-full"
               >
                 <Copy className="mr-2 h-4 w-4" />
                 Copy to Clipboard
