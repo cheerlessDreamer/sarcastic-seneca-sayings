@@ -4,11 +4,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Copy, Quote, Share2 } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showShareDialog, setShowShareDialog] = useState(false);
   const { toast } = useToast();
 
   const generateWisdom = async (userInput?: string) => {
@@ -57,23 +65,23 @@ const WisdomGenerator = () => {
   };
 
   const shareWisdom = async () => {
-    try {
-      await navigator.share({
-        text: wisdom,
-        title: "Stoic Wisdom",
-      });
-      toast({
-        title: "Shared!",
-        description: "Wisdom has been shared successfully",
-      });
-    } catch (error) {
-      if ((error as Error).name !== 'AbortError') {
-        toast({
-          title: "Error",
-          description: "Unable to share wisdom",
-          variant: "destructive",
+    if (navigator.share && navigator.canShare) {
+      try {
+        await navigator.share({
+          text: wisdom,
+          title: "Stoic Wisdom",
         });
+        toast({
+          title: "Shared!",
+          description: "Wisdom has been shared successfully",
+        });
+      } catch (error) {
+        if ((error as Error).name !== 'AbortError') {
+          setShowShareDialog(true);
+        }
       }
+    } else {
+      setShowShareDialog(true);
     }
   };
 
@@ -148,6 +156,27 @@ const WisdomGenerator = () => {
             </div>
           </Card>
         )}
+
+        <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Share Wisdom</DialogTitle>
+              <DialogDescription>
+                Here's your piece of Stoic wisdom to share:
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4">
+              <p className="font-serif text-lg text-sage-800 italic mb-4">{wisdom}</p>
+              <Button 
+                onClick={copyToClipboard} 
+                className="w-full bg-sage-600 hover:bg-sage-700"
+              >
+                <Copy className="mr-2 h-4 w-4" />
+                Copy to Clipboard
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );
