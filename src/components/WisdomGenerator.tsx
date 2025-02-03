@@ -57,65 +57,67 @@ const WisdomGenerator = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-8">
-      <div className="text-center space-y-4">
-        <h1 className="font-serif text-4xl md:text-5xl text-sage-800 font-semibold">
-          What Would Seneca Do?
-        </h1>
-        <p className="text-sage-600 text-lg">
-          Modern problems require ancient solutions
-        </p>
-      </div>
-
-      <Card className="p-6 bg-white/80 backdrop-blur">
-        <Textarea
-          placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          className="min-h-[100px] mb-4 font-sans"
-        />
-        
-        <div className="flex flex-col sm:flex-row gap-3">
-          <Button
-            onClick={() => generateWisdom(input)}
-            className="flex-1 bg-sage-600 hover:bg-sage-700"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            ) : null}
-            Generate Wisdom
-          </Button>
-          
-          <Button
-            onClick={() => generateWisdom()}
-            variant="outline"
-            className="flex-1 border-sage-200 hover:bg-sage-50"
-            disabled={isLoading}
-          >
-            <Quote className="mr-2 h-4 w-4" />
-            Random Quote
-          </Button>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="max-w-2xl w-full p-6 space-y-8">
+        <div className="text-center space-y-4">
+          <h1 className="font-serif text-4xl md:text-5xl text-sage-800 font-semibold">
+            What Would Seneca Do?
+          </h1>
+          <p className="text-sage-600 text-lg">
+            Modern problems require ancient solutions
+          </p>
         </div>
-      </Card>
 
-      {wisdom && (
-        <Card className="p-6 bg-white/80 backdrop-blur animate-fade-up">
-          <div className="flex justify-between items-start gap-4">
-            <p className="font-serif text-lg text-sage-800 italic">
-              {wisdom}
-            </p>
+        <Card className="p-6 bg-white/80 backdrop-blur">
+          <Textarea
+            placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="min-h-[100px] mb-4 font-sans"
+          />
+          
+          <div className="flex flex-col sm:flex-row gap-3">
             <Button
-              variant="ghost"
-              size="icon"
-              onClick={copyToClipboard}
-              className="flex-shrink-0"
+              onClick={() => generateWisdom(input)}
+              className="flex-1 bg-sage-600 hover:bg-sage-700"
+              disabled={isLoading}
             >
-              <Copy className="h-4 w-4" />
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
+              Generate Wisdom
+            </Button>
+            
+            <Button
+              onClick={() => generateWisdom()}
+              variant="outline"
+              className="flex-1 border-sage-200 hover:bg-sage-50"
+              disabled={isLoading}
+            >
+              <Quote className="mr-2 h-4 w-4" />
+              Random Quote
             </Button>
           </div>
         </Card>
-      )}
+
+        {wisdom && (
+          <Card className="p-6 bg-white/80 backdrop-blur animate-fade-up">
+            <div className="flex justify-between items-start gap-4">
+              <p className="font-serif text-lg text-sage-800 italic">
+                {wisdom}
+              </p>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={copyToClipboard}
+                className="flex-shrink-0"
+              >
+                <Copy className="h-4 w-4" />
+              </Button>
+            </div>
+          </Card>
+        )}
+      </div>
     </div>
   );
 };
