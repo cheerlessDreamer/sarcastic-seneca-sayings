@@ -1,69 +1,90 @@
-# Welcome to your Lovable project
 
-## Project info
+# What Would Seneca Do? - Modern Stoic Wisdom Generator
 
-**URL**: https://lovable.dev/projects/c622007a-aa5b-4d47-8741-7770b9222a4c
+A modern take on ancient Stoic wisdom, delivering sarcastic and witty philosophical advice for contemporary problems. This project uses OpenAI's GPT-4 to generate Stoic-inspired wisdom with a humorous twist, channeling the spirit of Seneca in a way that speaks to today's challenges.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- 🤖 AI-powered wisdom generation using GPT-4
+- 🌙 Dark/Light mode support
+- 📋 Easy copying of generated wisdom
+- 📱 Share functionality across different platforms
+- 💫 Modern, responsive UI with smooth animations
 
-**Use Lovable**
+## Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c622007a-aa5b-4d47-8741-7770b9222a4c) and start prompting.
+### Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js & npm - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- OpenAI API key - [get one here](https://platform.openai.com/api-keys)
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Installation
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
+# Navigate to project directory
 cd <YOUR_PROJECT_NAME>
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Configuration
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The application requires an OpenAI API key to function. When you first run the application, you'll be prompted to enter your API key. This key is stored securely in your browser's local storage.
 
-**Use GitHub Codespaces**
+## Technology Stack
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Frontend Framework**: React with TypeScript
+- **Build Tool**: Vite
+- **UI Components**: shadcn/ui
+- **Styling**: Tailwind CSS
+- **Icons**: Lucide React
+- **API Integration**: OpenAI GPT-4
 
-## What technologies are used for this project?
+## Project Structure
 
-This project is built with .
+```
+src/
+  ├── components/        # React components
+  ├── pages/            # Page components
+  ├── lib/              # Utility functions
+  └── styles/           # CSS and Tailwind styles
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Customizing the AI Prompt
 
-## How can I deploy this project?
+The AI system uses a specific prompt to generate Stoic wisdom. You can modify this by updating the system message in the `WisdomGenerator.tsx` component:
 
-Simply open [Lovable](https://lovable.dev/projects/c622007a-aa5b-4d47-8741-7770b9222a4c) and click on Share -> Publish.
+```typescript
+{
+  role: "system",
+  content: "You are Seneca, the Stoic philosopher, but with a sarcastic and modern twist..."
+}
+```
 
-## I want to use a custom domain - is that possible?
+Feel free to adjust this prompt to change the AI's personality or response style.
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is open source and available under the MIT License.
+
+## Acknowledgments
+
+- Built with [Lovable](https://lovable.dev)
+- UI components from [shadcn/ui](https://ui.shadcn.com)
+- Icons from [Lucide](https://lucide.dev)
+
