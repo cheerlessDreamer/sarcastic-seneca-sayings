@@ -25,7 +25,7 @@ const WisdomGenerator = () => {
 
   useEffect(() => {
     new Vivus('my-svg', {
-      duration: 400,
+      duration: 300,
       file: '/seneca.svg'
     });
   }, []);
