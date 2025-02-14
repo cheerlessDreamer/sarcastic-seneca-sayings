@@ -13,6 +13,12 @@ interface PhilosopherCardProps {
   onClick: () => void;
 }
 
+const wikipediaLinks = {
+  "Seneca": "https://en.wikipedia.org/wiki/Seneca_the_Younger",
+  "Marcus Aurelius": "https://en.wikipedia.org/wiki/Marcus_Aurelius",
+  "Epicurus": "https://en.wikipedia.org/wiki/Epicurus"
+} as const;
+
 export const PhilosopherCard = ({
   name,
   description,
@@ -45,10 +51,16 @@ export const PhilosopherCard = ({
             <p className="text-sm text-muted-foreground mt-1">
               {description}
             </p>
-            <div className="flex items-center gap-1 mt-2 text-sm text-primary font-medium">
+            <a 
+              href={wikipediaLinks[name]} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="inline-flex items-center gap-1 mt-2 text-sm text-primary font-medium hover:underline"
+            >
               Learn more 
               <ArrowRight className="h-3 w-3" />
-            </div>
+            </a>
           </div>
         </div>
       </div>
