@@ -27,8 +27,6 @@ const WisdomGenerator = () => {
     new Vivus('my-svg', {
       duration: 400,
       file: '/seneca.svg'
-    }, () => {
-      console.log('Animation completed');
     });
   }, []);
 
