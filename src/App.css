@@ -42,8 +42,18 @@
   color: #888;
 }
 
+/* Seneca SVG Animation */
 @keyframes draw-stroke {
-  to {
+  0% {
+    stroke-dasharray: 7165;
+    stroke-dashoffset: 7165;
+  }
+  100% {
+    stroke-dasharray: 7165;
     stroke-dashoffset: 0;
   }
+}
+
+.seneca-svg path {
+  animation: draw-stroke 3s cubic-bezier(0.445, 0.05, 0.55, 0.95) forwards;
 }
