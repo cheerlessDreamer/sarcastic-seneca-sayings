@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -25,6 +26,10 @@ const WisdomGenerator = () => {
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const { toast } = useToast();
+
+  const shareText = (wisdom: string) => {
+    return `${wisdom}\n\nGet your own Stoic wisdom at ${window.location.origin}`;
+  };
 
   const generateWisdom = async (userInput?: string) => {
     setIsLoading(true);
@@ -62,7 +67,7 @@ const WisdomGenerator = () => {
   };
 
   const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(wisdom);
+    await navigator.clipboard.writeText(shareText(wisdom));
     toast({
       title: "Copied!",
       description: "Wisdom has been copied to clipboard"
@@ -70,17 +75,17 @@ const WisdomGenerator = () => {
   };
 
   const shareToTwitter = () => {
-    const text = encodeURIComponent(wisdom);
+    const text = encodeURIComponent(shareText(wisdom));
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
   };
 
   const shareToFacebook = () => {
     const url = encodeURIComponent(window.location.href);
-    window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(wisdom)}&u=${url}`, '_blank');
+    window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(shareText(wisdom))}&u=${url}`, '_blank');
   };
 
   const shareToWhatsApp = () => {
-    const text = encodeURIComponent(wisdom);
+    const text = encodeURIComponent(shareText(wisdom));
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
 
@@ -88,7 +93,7 @@ const WisdomGenerator = () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          text: wisdom,
+          text: shareText(wisdom),
           title: "Stoic Wisdom"
         });
         toast({
