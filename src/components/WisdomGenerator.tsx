@@ -1,4 +1,3 @@
-
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -150,20 +149,20 @@ const WisdomGenerator = () => {
       <Dialog open={showAboutDialog} onOpenChange={setShowAboutDialog}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>About Seneca Says</DialogTitle>
+            <DialogTitle>About Ancient Wisdom</DialogTitle>
             <DialogDescription>
-              Your personal Stoic advisor with a twist
+              Your personal philosophical advisor
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <p className="text-muted-foreground">
-              Seneca Says is a modern take on ancient Stoic wisdom. It combines the timeless teachings of Stoicism with a dash of sarcasm to help you navigate life's challenges.
+              Step into the realm of ancient philosophy, where timeless wisdom meets modern challenges. Engage in dialogue with some of history's greatest philosophical minds.
             </p>
             <p className="text-muted-foreground">
-              Powered by AI, this tool channels the spirit of Seneca, the renowned Stoic philosopher, to provide witty and wisdom-filled responses to your modern-day problems.
+              Whether you seek the pragmatic counsel of Seneca, the contemplative insights of Marcus Aurelius, or the serene guidance of Epicurus, their eternal wisdom stands ready to illuminate your path.
             </p>
             <p className="text-muted-foreground">
-              Whether you're procrastinating, stressed, or just need some philosophical perspective, Seneca is here to offer his ancient wisdom with a contemporary twist.
+              Share your thoughts, concerns, or dilemmas, and receive personalized wisdom that bridges millennia to address your contemporary challenges.
             </p>
           </div>
         </DialogContent>
