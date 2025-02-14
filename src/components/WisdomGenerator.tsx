@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -105,7 +106,6 @@ const WisdomGenerator = () => {
                 description={philosopherDescriptions[name]}
                 imageSrc={philosopherData[name].imageSrc}
                 isSelected={philosopher === name}
-                isDisabled={name !== "Seneca" && name !== "Marcus Aurelius"}
                 onClick={() => {
                   setPhilosopher(name);
                   setShowPhilosopherDialog(false);
