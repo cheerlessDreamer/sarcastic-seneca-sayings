@@ -1,5 +1,4 @@
-
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -20,7 +19,6 @@ const getRandomPlaceholder = () => {
   return placeholderQuestions[randomIndex];
 };
 
-// Generate a random 6-digit reference number
 const generateReference = () => {
   return Math.floor(Math.random() * 900000) + 100000;
 };
@@ -49,7 +47,8 @@ const WisdomGenerator = () => {
           philosopher: philosopher,
           philosopher_instructions: philosopherData[philosopher].systemPrompt,
           response: generatedWisdom,
-          reference: newReference
+          reference: newReference,
+          request: userInput
         });
 
       if (error) {

@@ -156,6 +156,7 @@ export type Database = {
           philosopher: string | null
           philosopher_instructions: string | null
           reference: number
+          request: string | null
           response: string | null
         }
         Insert: {
@@ -164,6 +165,7 @@ export type Database = {
           philosopher?: string | null
           philosopher_instructions?: string | null
           reference: number
+          request?: string | null
           response?: string | null
         }
         Update: {
@@ -172,6 +174,7 @@ export type Database = {
           philosopher?: string | null
           philosopher_instructions?: string | null
           reference?: number
+          request?: string | null
           response?: string | null
         }
         Relationships: []
