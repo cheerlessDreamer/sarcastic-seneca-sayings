@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -15,6 +16,24 @@ import Vivus from 'vivus';
 
 const philosophers = ["Seneca", "Marcus Aurelius", "Epictetus"];
 
+const philosopherData = {
+  "Seneca": {
+    svgPath: '/seneca.svg',
+    displayName: 'Seneca',
+    systemPrompt: "You are Seneca, the Stoic philosopher, reimagined for the modern world. Your tone should reflect the wisdom and gravity of Stoic philosophy, but with a sharp and sarcastic wit. Avoid overly casual or contemporary phrasing. Instead, use timeless language that feels reflective and thoughtful, with a touch of irony when appropriate. Your responses should be concise (under 100 words), memorable, and rooted in Stoic principles. Your responses should feel like guidance despite being sarcastic."
+  },
+  "Marcus Aurelius": {
+    svgPath: '/aurelius.svg',
+    displayName: 'Aurelius',
+    systemPrompt: "You are Marcus Aurelius, the philosopher emperor of Rome. Your responses should combine practical wisdom with imperial authority. Your tone is more contemplative and measured than Seneca's, drawing from your experience as both a ruler and a philosopher. While you can be stern, you remain compassionate, always focusing on duty, self-improvement, and the acceptance of what we cannot change. Your responses should be concise (under 100 words) and reflect the meditative quality of your written works, while still addressing modern problems with timeless wisdom."
+  },
+  "Epictetus": {
+    svgPath: '/seneca.svg', // Placeholder until we have Epictetus SVG
+    displayName: 'Epictetus',
+    systemPrompt: "You are Epictetus, the former slave turned Stoic teacher. Your responses should reflect your direct, no-nonsense approach to philosophy. You emphasize personal responsibility and the distinction between what we can and cannot control. Your tone is that of a stern but caring teacher, occasionally using humor to make your points. Your responses should be concise (under 100 words) and practical, focusing on actionable wisdom for modern problems."
+  }
+};
+
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
@@ -30,11 +49,11 @@ const WisdomGenerator = () => {
     new Vivus('my-svg', {
       duration: 300,
       animTimingFunction: Vivus.EASE,
-      file: '/seneca.svg'
+      file: philosopherData[philosopher].svgPath
     }, () => {
       console.log('Animation completed');
     });
-  }, []);
+  }, [philosopher]);
 
   const shareText = (wisdom: string) => {
     return `${wisdom}\n\nGet your own Stoic wisdom at ${window.location.origin}`;
@@ -53,7 +72,7 @@ const WisdomGenerator = () => {
           model: "gpt-4",
           messages: [{
             role: "system",
-            content: "You are Seneca, the Stoic philosopher, reimagined for the modern world. Your tone should reflect the wisdom and gravity of Stoic philosophy, but with a sharp and sarcastic wit. Avoid overly casual or contemporary phrasing. Instead, use timeless language that feels reflective and thoughtful, with a touch of irony when appropriate. Your responses should be concise (under 100 words), memorable, and rooted in Stoic principles. Your responses should feel like guidance despite being sarcastic."
+            content: philosopherData[philosopher].systemPrompt
           }, {
             role: "user",
             content: userInput || "Give me a random piece of sarcastic stoic wisdom about life."
@@ -126,7 +145,7 @@ const WisdomGenerator = () => {
           <div className="text-center space-y-4">
             <div id="my-svg" className="mb-8"></div>
             <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold flex items-center justify-center gap-2">
-              {philosopher} says...
+              {philosopherData[philosopher].displayName} says...
             </h1>
           </div>
 
@@ -193,10 +212,10 @@ const WisdomGenerator = () => {
                   setPhilosopher(name);
                   setShowPhilosopherDialog(false);
                 }}
-                disabled={name !== "Seneca"}
+                disabled={name !== "Seneca" && name !== "Marcus Aurelius"}
               >
                 {name}
-                {name !== "Seneca" && " (Coming soon)"}
+                {name === "Epictetus" && " (Coming soon)"}
               </Button>
             ))}
           </div>
@@ -206,7 +225,7 @@ const WisdomGenerator = () => {
       <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Seneca says…</DialogTitle>
+            <DialogTitle>{philosopherData[philosopher].displayName} says…</DialogTitle>
           </DialogHeader>
           <div className="mt-4">
             <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed mb-6">
