@@ -7,13 +7,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { PhilosopherIllustration } from "./PhilosopherIllustration";
 import { ShareButtons } from "./ShareDialog";
 import { generateWisdom } from "@/utils/wisdomUtils";
-import { philosophers, philosopherData, type PhilosopherName } from "@/constants/philosophers";
-
-const philosopherDescriptions = {
-  "Seneca": "A witty and pragmatic Stoic who served as advisor to emperors. Known for his sharp insights and occasional irony in teaching life's hardest lessons.",
-  "Marcus Aurelius": "The philosopher-emperor of Rome, whose private meditations reveal a deeply contemplative and duty-bound nature. Stern yet compassionate in his wisdom.",
-  "Epictetus": "A former slave who became one of Stoicism's greatest teachers. Direct and practical in his approach, with a focus on personal responsibility."
-} as const;
+import { philosophers, philosopherData, philosopherDescriptions, type PhilosopherName } from "@/constants/philosophers";
+import { PhilosopherCard } from "./PhilosopherCard";
 
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
@@ -95,7 +90,7 @@ const WisdomGenerator = () => {
 
       {/* Philosopher Selection Dialog */}
       <Dialog open={showPhilosopherDialog} onOpenChange={setShowPhilosopherDialog}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-xl">
           <DialogHeader>
             <DialogTitle>Choose Your Philosopher</DialogTitle>
             <DialogDescription>
@@ -104,23 +99,18 @@ const WisdomGenerator = () => {
           </DialogHeader>
           <div className="grid gap-4">
             {philosophers.map((name) => (
-              <div key={name} className="space-y-2">
-                <Button
-                  variant={philosopher === name ? "default" : "outline"}
-                  className="w-full justify-start text-left"
-                  onClick={() => {
-                    setPhilosopher(name);
-                    setShowPhilosopherDialog(false);
-                  }}
-                  disabled={name !== "Seneca" && name !== "Marcus Aurelius"}
-                >
-                  {name}
-                  {name === "Epictetus" && " (Coming soon)"}
-                </Button>
-                <p className="text-sm text-muted-foreground px-2">
-                  {philosopherDescriptions[name]}
-                </p>
-              </div>
+              <PhilosopherCard
+                key={name}
+                name={name}
+                description={philosopherDescriptions[name]}
+                imageSrc={philosopherData[name].imageSrc}
+                isSelected={philosopher === name}
+                isDisabled={name !== "Seneca" && name !== "Marcus Aurelius"}
+                onClick={() => {
+                  setPhilosopher(name);
+                  setShowPhilosopherDialog(false);
+                }}
+              />
             ))}
           </div>
         </DialogContent>
