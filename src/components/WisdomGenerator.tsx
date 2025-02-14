@@ -142,7 +142,7 @@ const WisdomGenerator = () => {
 
       <footer className="p-4 flex justify-center gap-4">
         <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent" onClick={() => setShowAboutDialog(true)}>
-          <Info className="h-6 w-6 text-muted-foreground" />
+          <Info className="h-6 w-6 text-primary" />
         </Button>
         <ThemeToggle />
       </footer>
