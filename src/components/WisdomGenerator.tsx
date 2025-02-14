@@ -1,3 +1,4 @@
+
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,34 +10,75 @@ import { ShareButtons } from "./ShareDialog";
 import { generateWisdom } from "@/utils/wisdomUtils";
 import { philosophers, philosopherData, philosopherDescriptions, type PhilosopherName } from "@/constants/philosophers";
 import { PhilosopherCard } from "./PhilosopherCard";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/components/ui/use-toast";
+
 const placeholderQuestions = ["What vexes thy spirit?", "What counsel dost thou seek?", "What burden weighs upon thy thoughts?", "What wisdom dost thou seek?", "What matter requires contemplation?"];
+
 const getRandomPlaceholder = () => {
   const randomIndex = Math.floor(Math.random() * placeholderQuestions.length);
   return placeholderQuestions[randomIndex];
 };
+
+// Generate a random 6-digit reference number
+const generateReference = () => {
+  return Math.floor(Math.random() * 900000) + 100000;
+};
+
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
+  const [reference, setReference] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
   const [showPhilosopherDialog, setShowPhilosopherDialog] = useState(false);
   const [philosopher, setPhilosopher] = useState<PhilosopherName>("Seneca");
   const [placeholder, setPlaceholder] = useState(getRandomPlaceholder());
+
   const handleGenerateWisdom = async (userInput?: string) => {
     setIsLoading(true);
     try {
       const generatedWisdom = await generateWisdom(philosopher, userInput);
+      const newReference = generateReference();
+      
+      // Save to Supabase
+      const { error } = await supabase
+        .from('seneca-says')
+        .insert({
+          philosopher: philosopher,
+          philosopher_instructions: philosopherData[philosopher].systemPrompt,
+          response: generatedWisdom,
+          reference: newReference
+        });
+
+      if (error) {
+        console.error('Error saving to database:', error);
+        toast({
+          title: "Error",
+          description: "Failed to save wisdom to database",
+          variant: "destructive"
+        });
+        return;
+      }
+
       setWisdom(generatedWisdom);
+      setReference(newReference);
       setShowWisdomDialog(true);
       setInput(""); // Clear the input field after generating wisdom
       setPlaceholder(getRandomPlaceholder()); // Set new random placeholder
     } catch (error) {
       console.error('Error generating wisdom:', error);
+      toast({
+        title: "Error",
+        description: "Failed to generate wisdom",
+        variant: "destructive"
+      });
     } finally {
       setIsLoading(false);
     }
   };
+
   return <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center">
         <div className="max-w-2xl w-full p-6 space-y-8">
@@ -105,6 +147,11 @@ const WisdomGenerator = () => {
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>{philosopherData[philosopher].displayName} says…</DialogTitle>
+            {reference && (
+              <DialogDescription>
+                Reference: #{reference}
+              </DialogDescription>
+            )}
           </DialogHeader>
           <div className="mt-4">
             <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed mb-6">
@@ -139,4 +186,5 @@ const WisdomGenerator = () => {
       </Dialog>
     </div>;
 };
+
 export default WisdomGenerator;
