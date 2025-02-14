@@ -123,7 +123,7 @@ const WisdomGenerator = () => {
                     className="font-serif text-4xl md:text-5xl text-foreground font-semibold px-2 h-auto"
                   >
                     {philosopher}
-                    <ChevronDown className="ml-2 h-6 w-6" />
+                    <ChevronDown className="ml-2 h-8 w-8" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center" className="w-48">
