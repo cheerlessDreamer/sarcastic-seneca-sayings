@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +11,7 @@ import { philosophers, philosopherData, philosopherDescriptions, type Philosophe
 import { PhilosopherCard } from "./PhilosopherCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
+import { ThemeToggle } from "./ThemeToggle";
 
 const placeholderQuestions = ["What vexes thy spirit?", "What counsel dost thou seek?", "What burden weighs upon thy thoughts?", "What wisdom dost thou seek?", "What matter requires contemplation?"];
 
@@ -124,8 +124,8 @@ const WisdomGenerator = () => {
         </div>
       </div>
 
-      {/* FAB for philosopher selection */}
-      <div className="fixed bottom-8 right-8">
+      {/* FAB for philosopher selection - now in top right */}
+      <div className="fixed top-8 right-8">
         <Button 
           size="icon" 
           className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden" 
@@ -139,10 +139,11 @@ const WisdomGenerator = () => {
         </Button>
       </div>
 
-      <footer className="p-4 flex justify-center">
+      <footer className="p-4 flex justify-center gap-4">
         <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent" onClick={() => setShowAboutDialog(true)}>
           <Info className="h-6 w-6 text-muted-foreground" />
         </Button>
+        <ThemeToggle />
       </footer>
 
       {/* Philosopher Selection Dialog */}
