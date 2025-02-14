@@ -9,20 +9,11 @@ import { ShareButtons } from "./ShareDialog";
 import { generateWisdom } from "@/utils/wisdomUtils";
 import { philosophers, philosopherData, philosopherDescriptions, type PhilosopherName } from "@/constants/philosophers";
 import { PhilosopherCard } from "./PhilosopherCard";
-
-const placeholderQuestions = [
-  "What vexes thy spirit?",
-  "What counsel dost thou seek?",
-  "What burden weighs upon thy thoughts?",
-  "What wisdom dost thou seek?",
-  "What matter requires contemplation?"
-];
-
+const placeholderQuestions = ["What vexes thy spirit?", "What counsel dost thou seek?", "What burden weighs upon thy thoughts?", "What wisdom dost thou seek?", "What matter requires contemplation?"];
 const getRandomPlaceholder = () => {
   const randomIndex = Math.floor(Math.random() * placeholderQuestions.length);
   return placeholderQuestions[randomIndex];
 };
-
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
@@ -32,7 +23,6 @@ const WisdomGenerator = () => {
   const [showPhilosopherDialog, setShowPhilosopherDialog] = useState(false);
   const [philosopher, setPhilosopher] = useState<PhilosopherName>("Seneca");
   const [placeholder, setPlaceholder] = useState(getRandomPlaceholder());
-
   const handleGenerateWisdom = async (userInput?: string) => {
     setIsLoading(true);
     try {
@@ -47,9 +37,7 @@ const WisdomGenerator = () => {
       setIsLoading(false);
     }
   };
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center">
         <div className="max-w-2xl w-full p-6 space-y-8">
           <div className="text-center space-y-4">
@@ -60,12 +48,7 @@ const WisdomGenerator = () => {
           </div>
 
           <Card className="p-6 bg-background/80 backdrop-blur border">
-            <Textarea 
-              placeholder={placeholder}
-              value={input} 
-              onChange={e => setInput(e.target.value)} 
-              className="min-h-[100px] mb-4 font-sans" 
-            />
+            <Textarea placeholder={placeholder} value={input} onChange={e => setInput(e.target.value)} className="min-h-[100px] mb-4 font-sans" />
             
             <div className="flex flex-col sm:flex-row gap-3">
               <Button onClick={() => handleGenerateWisdom(input)} className="flex-1" disabled={isLoading}>
@@ -88,11 +71,7 @@ const WisdomGenerator = () => {
 
       {/* FAB for philosopher selection */}
       <div className="fixed bottom-8 right-8">
-        <Button 
-          size="icon"
-          className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow"
-          onClick={() => setShowPhilosopherDialog(true)}
-        >
+        <Button size="icon" className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow" onClick={() => setShowPhilosopherDialog(true)}>
           <Users className="h-6 w-6" />
         </Button>
       </div>
@@ -113,19 +92,10 @@ const WisdomGenerator = () => {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
-            {philosophers.map((name) => (
-              <PhilosopherCard
-                key={name}
-                name={name}
-                description={philosopherDescriptions[name]}
-                imageSrc={philosopherData[name].imageSrc}
-                isSelected={philosopher === name}
-                onClick={() => {
-                  setPhilosopher(name);
-                  setShowPhilosopherDialog(false);
-                }}
-              />
-            ))}
+            {philosophers.map(name => <PhilosopherCard key={name} name={name} description={philosopherDescriptions[name]} imageSrc={philosopherData[name].imageSrc} isSelected={philosopher === name} onClick={() => {
+            setPhilosopher(name);
+            setShowPhilosopherDialog(false);
+          }} />)}
           </div>
         </DialogContent>
       </Dialog>
@@ -149,7 +119,7 @@ const WisdomGenerator = () => {
       <Dialog open={showAboutDialog} onOpenChange={setShowAboutDialog}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>About Ancient Wisdom</DialogTitle>
+            <DialogTitle>About Seneca Says</DialogTitle>
             <DialogDescription>
               Your personal philosophical advisor
             </DialogDescription>
@@ -167,8 +137,6 @@ const WisdomGenerator = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>;
 };
-
 export default WisdomGenerator;
