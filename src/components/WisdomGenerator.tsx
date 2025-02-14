@@ -3,9 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
@@ -13,9 +24,8 @@ const WisdomGenerator = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
-  const {
-    toast
-  } = useToast();
+  const [showAboutDialog, setShowAboutDialog] = useState(false);
+  const { toast } = useToast();
 
   const shareText = (wisdom: string) => {
     return `${wisdom}\n\nGet your own Stoic wisdom at ${window.location.origin}`;
@@ -100,109 +110,146 @@ const WisdomGenerator = () => {
     }
   };
 
-  return <div className="min-h-screen flex items-center justify-center">
-      <div className="max-w-2xl w-full p-6 space-y-8">
-        <div className="text-center space-y-4">
-          <div className="mb-8">
-            <img src="/seneca.svg" alt="Seneca illustration" className="seneca-svg w-full max-w-[640px] h-auto mx-auto" />
-          </div>
-          <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
-            Seneca Says...
-          </h1>
-        </div>
-
-        <Card className="p-6 bg-background/80 backdrop-blur border">
-          <Textarea 
-            placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" 
-            value={input} 
-            onChange={e => setInput(e.target.value)} 
-            className="min-h-[100px] mb-4 font-sans" 
-          />
-          
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Button onClick={() => generateWisdom(input)} className="flex-1" disabled={isLoading}>
-              {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-              Generate Wisdom
-            </Button>
-            
-            <Button onClick={() => generateWisdom()} variant="outline" className="flex-1" disabled={isLoading}>
-              <Quote className="mr-2 h-4 w-4" />
-              Random Quote
-            </Button>
-          </div>
-        </Card>
-
-        <p className="text-muted-foreground text-lg text-center">
-          Get sarcastic Stoic wisdom for your modern problems
-        </p>
-
-        <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
-          <DialogContent className="sm:max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Seneca Says...</DialogTitle>
-              <DialogDescription>
-                Here's your piece of Stoic wisdom:
-              </DialogDescription>
-            </DialogHeader>
-            <div className="mt-4">
-              <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed mb-6">
-                {wisdom}
-              </p>
-              <div className="flex gap-3">
-                <Button onClick={copyToClipboard} className="flex-1">
-                  <Copy className="mr-2 h-4 w-4" />
-                  Copy to Clipboard
-                </Button>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="flex-1">
-                      <Share2 className="mr-2 h-4 w-4" />
-                      Share
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem onClick={shareToTwitter} className="cursor-pointer">
-                      <Twitter className="mr-2 h-4 w-4" />
-                      Twitter
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={shareToFacebook} className="cursor-pointer">
-                      <Facebook className="mr-2 h-4 w-4" />
-                      Facebook
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={shareToWhatsApp} className="cursor-pointer">
-                      <Send className="mr-2 h-4 w-4" />
-                      WhatsApp
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={shareViaNative} className="cursor-pointer">
-                      <Share2 className="mr-2 h-4 w-4" />
-                      More Options
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
+  return (
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-1 flex items-center justify-center">
+        <div className="max-w-2xl w-full p-6 space-y-8">
+          <div className="text-center space-y-4">
+            <div className="mb-8">
+              <img src="/seneca.svg" alt="Seneca illustration" className="seneca-svg w-full max-w-[640px] h-auto mx-auto" />
             </div>
-          </DialogContent>
-        </Dialog>
+            <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
+              Seneca Says...
+            </h1>
+          </div>
 
-        <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Share Wisdom</DialogTitle>
-              <DialogDescription>
-                Here's your piece of Stoic wisdom to share:
-              </DialogDescription>
-            </DialogHeader>
-            <div className="mt-4">
-              <p className="font-serif text-xl text-foreground italic mb-4">{wisdom}</p>
-              <Button onClick={copyToClipboard} className="w-full">
+          <Card className="p-6 bg-background/80 backdrop-blur border">
+            <Textarea 
+              placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" 
+              value={input} 
+              onChange={e => setInput(e.target.value)} 
+              className="min-h-[100px] mb-4 font-sans" 
+            />
+            
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button onClick={() => generateWisdom(input)} className="flex-1" disabled={isLoading}>
+                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                Generate Wisdom
+              </Button>
+              
+              <Button onClick={() => generateWisdom()} variant="outline" className="flex-1" disabled={isLoading}>
+                <Quote className="mr-2 h-4 w-4" />
+                Random Quote
+              </Button>
+            </div>
+          </Card>
+
+          <p className="text-muted-foreground text-lg text-center">
+            Get sarcastic Stoic wisdom for your modern problems
+          </p>
+        </div>
+      </div>
+
+      <footer className="p-4 flex justify-center">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="rounded-full hover:bg-accent"
+          onClick={() => setShowAboutDialog(true)}
+        >
+          <Info className="h-6 w-6 text-muted-foreground" />
+        </Button>
+      </footer>
+
+      <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Seneca Says...</DialogTitle>
+            <DialogDescription>
+              Here's your piece of Stoic wisdom:
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4">
+            <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed mb-6">
+              {wisdom}
+            </p>
+            <div className="flex gap-3">
+              <Button onClick={copyToClipboard} className="flex-1">
                 <Copy className="mr-2 h-4 w-4" />
                 Copy to Clipboard
               </Button>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="flex-1">
+                    <Share2 className="mr-2 h-4 w-4" />
+                    Share
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem onClick={shareToTwitter} className="cursor-pointer">
+                    <Twitter className="mr-2 h-4 w-4" />
+                    Twitter
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={shareToFacebook} className="cursor-pointer">
+                    <Facebook className="mr-2 h-4 w-4" />
+                    Facebook
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={shareToWhatsApp} className="cursor-pointer">
+                    <Send className="mr-2 h-4 w-4" />
+                    WhatsApp
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={shareViaNative} className="cursor-pointer">
+                    <Share2 className="mr-2 h-4 w-4" />
+                    More Options
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-          </DialogContent>
-        </Dialog>
-      </div>
-    </div>;
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Share Wisdom</DialogTitle>
+            <DialogDescription>
+              Here's your piece of Stoic wisdom to share:
+            </DialogDescription>
+          </DialogHeader>
+          <div className="mt-4">
+            <p className="font-serif text-xl text-foreground italic mb-4">{wisdom}</p>
+            <Button onClick={copyToClipboard} className="w-full">
+              <Copy className="mr-2 h-4 w-4" />
+              Copy to Clipboard
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showAboutDialog} onOpenChange={setShowAboutDialog}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>About Seneca Says</DialogTitle>
+            <DialogDescription>
+              Your personal Stoic advisor with a twist
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-muted-foreground">
+              Seneca Says is a modern take on ancient Stoic wisdom. It combines the timeless teachings of Stoicism with a dash of sarcasm to help you navigate life's challenges.
+            </p>
+            <p className="text-muted-foreground">
+              Powered by AI, this tool channels the spirit of Seneca, the renowned Stoic philosopher, to provide witty and wisdom-filled responses to your modern-day problems.
+            </p>
+            <p className="text-muted-foreground">
+              Whether you're procrastinating, stressed, or just need some philosophical perspective, Seneca is here to offer his ancient wisdom with a contemporary twist.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
 };
 
 export default WisdomGenerator;
