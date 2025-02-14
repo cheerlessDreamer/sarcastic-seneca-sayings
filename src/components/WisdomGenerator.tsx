@@ -99,9 +99,7 @@ const WisdomGenerator = () => {
             <div className="mb-8">
               <img src="/seneca.svg" alt="Seneca illustration" className="seneca-svg w-full max-w-[640px] h-auto mx-auto" />
             </div>
-            <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
-              Seneca Says...
-            </h1>
+            <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">Seneca says...</h1>
           </div>
 
           <Card className="p-6 bg-background/80 backdrop-blur border">
