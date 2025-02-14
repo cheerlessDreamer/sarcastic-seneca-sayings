@@ -2,6 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { type PhilosopherName } from "@/constants/philosophers";
+import { ArrowRight } from "lucide-react";
 
 interface PhilosopherCardProps {
   name: PhilosopherName;
@@ -44,6 +45,10 @@ export const PhilosopherCard = ({
             <p className="text-sm text-muted-foreground mt-1">
               {description}
             </p>
+            <div className="flex items-center gap-1 mt-2 text-sm text-primary font-medium">
+              Learn more 
+              <ArrowRight className="h-3 w-3" />
+            </div>
           </div>
         </div>
       </div>
