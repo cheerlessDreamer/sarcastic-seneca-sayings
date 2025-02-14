@@ -85,7 +85,7 @@ const WisdomGenerator = () => {
         <div className="max-w-2xl w-full p-6 space-y-8">
           <div className="text-center space-y-4">
             <PhilosopherIllustration philosopher={philosopher} />
-            <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold flex items-center justify-center gap-2">
+            <h1 className="font-serif text-4xl md:text-5xl text-primary/80 font-medium flex items-center justify-center gap-2">
               {philosopherData[philosopher].displayName} says&hellip;
             </h1>
           </div>
