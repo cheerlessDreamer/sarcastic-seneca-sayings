@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -104,7 +105,7 @@ const WisdomGenerator = () => {
             <img 
               src="/seneca.svg" 
               alt="Seneca illustration" 
-              className="seneca-svg w-48 h-48 mx-auto"
+              className="seneca-svg w-full max-w-[640px] h-auto mx-auto"
             />
           </div>
           <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
