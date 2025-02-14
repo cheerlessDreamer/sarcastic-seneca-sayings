@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -11,6 +11,19 @@ import { generateWisdom } from "@/utils/wisdomUtils";
 import { philosophers, philosopherData, philosopherDescriptions, type PhilosopherName } from "@/constants/philosophers";
 import { PhilosopherCard } from "./PhilosopherCard";
 
+const placeholderQuestions = [
+  "What vexes thy spirit?",
+  "What counsel dost thou seek?",
+  "What burden weighs upon thy thoughts?",
+  "What wisdom dost thou seek?",
+  "What matter requires contemplation?"
+];
+
+const getRandomPlaceholder = () => {
+  const randomIndex = Math.floor(Math.random() * placeholderQuestions.length);
+  return placeholderQuestions[randomIndex];
+};
+
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
@@ -19,6 +32,7 @@ const WisdomGenerator = () => {
   const [showAboutDialog, setShowAboutDialog] = useState(false);
   const [showPhilosopherDialog, setShowPhilosopherDialog] = useState(false);
   const [philosopher, setPhilosopher] = useState<PhilosopherName>("Seneca");
+  const [placeholder, setPlaceholder] = useState(getRandomPlaceholder());
 
   const handleGenerateWisdom = async (userInput?: string) => {
     setIsLoading(true);
@@ -27,6 +41,7 @@ const WisdomGenerator = () => {
       setWisdom(generatedWisdom);
       setShowWisdomDialog(true);
       setInput(""); // Clear the input field after generating wisdom
+      setPlaceholder(getRandomPlaceholder()); // Set new random placeholder
     } catch (error) {
       console.error('Error generating wisdom:', error);
     } finally {
@@ -47,7 +62,7 @@ const WisdomGenerator = () => {
 
           <Card className="p-6 bg-background/80 backdrop-blur border">
             <Textarea 
-              placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" 
+              placeholder={placeholder}
               value={input} 
               onChange={e => setInput(e.target.value)} 
               className="min-h-[100px] mb-4 font-sans" 
