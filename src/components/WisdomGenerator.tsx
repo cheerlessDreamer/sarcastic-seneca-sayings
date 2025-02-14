@@ -46,6 +46,13 @@ const WisdomGenerator = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Clear the previous SVG content
+    const svgContainer = document.getElementById('my-svg');
+    if (svgContainer) {
+      svgContainer.innerHTML = '';
+    }
+
+    // Initialize new SVG
     new Vivus('my-svg', {
       duration: 300,
       animTimingFunction: Vivus.EASE,
