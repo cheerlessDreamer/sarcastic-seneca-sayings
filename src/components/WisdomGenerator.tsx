@@ -5,6 +5,12 @@ import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info, Users } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 import Vivus from 'vivus';
 
 const philosophers = ["Seneca", "Marcus Aurelius", "Epictetus"];
@@ -33,6 +39,7 @@ const WisdomGenerator = () => {
   const shareText = (wisdom: string) => {
     return `${wisdom}\n\nGet your own Stoic wisdom at ${window.location.origin}`;
   };
+
   const generateWisdom = async (userInput?: string) => {
     setIsLoading(true);
     try {
@@ -67,6 +74,7 @@ const WisdomGenerator = () => {
       setIsLoading(false);
     }
   };
+
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(shareText(wisdom));
     toast({
@@ -74,18 +82,22 @@ const WisdomGenerator = () => {
       description: "Wisdom has been copied to clipboard"
     });
   };
+
   const shareToTwitter = () => {
     const text = encodeURIComponent(shareText(wisdom));
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
   };
+
   const shareToFacebook = () => {
     const url = encodeURIComponent(window.location.href);
     window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(shareText(wisdom))}&u=${url}`, '_blank');
   };
+
   const shareToWhatsApp = () => {
     const text = encodeURIComponent(shareText(wisdom));
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
+
   const shareViaNative = async () => {
     if (navigator.share) {
       try {
@@ -195,7 +207,6 @@ const WisdomGenerator = () => {
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
             <DialogTitle>Seneca says…</DialogTitle>
-            
           </DialogHeader>
           <div className="mt-4">
             <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed mb-6">
