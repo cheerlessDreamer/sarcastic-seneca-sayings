@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { Loader2, Quote, Info, Users, ArrowRight } from "lucide-react";
+import { Loader2, Quote, Info, UserRound, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { PhilosopherIllustration } from "./PhilosopherIllustration";
 import { ShareButtons } from "./ShareDialog";
@@ -127,7 +127,7 @@ const WisdomGenerator = () => {
       {/* FAB for philosopher selection */}
       <div className="fixed bottom-8 right-8">
         <Button size="icon" className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow" onClick={() => setShowPhilosopherDialog(true)}>
-          <Users className="h-6 w-6" />
+          <UserRound className="h-6 w-6" />
         </Button>
       </div>
 
