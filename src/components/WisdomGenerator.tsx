@@ -1,36 +1,23 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   const shareText = (wisdom: string) => {
     return `${wisdom}\n\nGet your own Stoic wisdom at ${window.location.origin}`;
   };
-
   const generateWisdom = async (userInput?: string) => {
     setIsLoading(true);
     try {
@@ -65,7 +52,6 @@ const WisdomGenerator = () => {
       setIsLoading(false);
     }
   };
-
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(shareText(wisdom));
     toast({
@@ -73,22 +59,18 @@ const WisdomGenerator = () => {
       description: "Wisdom has been copied to clipboard"
     });
   };
-
   const shareToTwitter = () => {
     const text = encodeURIComponent(shareText(wisdom));
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
   };
-
   const shareToFacebook = () => {
     const url = encodeURIComponent(window.location.href);
     window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(shareText(wisdom))}&u=${url}`, '_blank');
   };
-
   const shareToWhatsApp = () => {
     const text = encodeURIComponent(shareText(wisdom));
     window.open(`https://wa.me/?text=${text}`, '_blank');
   };
-
   const shareViaNative = async () => {
     if (navigator.share) {
       try {
@@ -109,33 +91,20 @@ const WisdomGenerator = () => {
       setShowShareDialog(true);
     }
   };
-
-  return (
-    <div className="min-h-screen flex items-center justify-center">
+  return <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-2xl w-full p-6 space-y-8">
         <div className="text-center space-y-4">
           <div className="mb-8">
-            <img 
-              src="/seneca.svg" 
-              alt="Seneca illustration" 
-              className="seneca-svg w-full max-w-[640px] h-auto mx-auto"
-            />
+            <img src="/seneca.svg" alt="Seneca illustration" className="seneca-svg w-full max-w-[640px] h-auto mx-auto" />
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
-            Seneca Says...
-          </h1>
+          <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">Seneca says...</h1>
           <p className="text-muted-foreground text-lg">
             Modern problems require ancient solutions
           </p>
         </div>
 
         <Card className="p-6 bg-background/80 backdrop-blur border">
-          <Textarea 
-            placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" 
-            value={input} 
-            onChange={e => setInput(e.target.value)} 
-            className="min-h-[100px] mb-4 font-sans" 
-          />
+          <Textarea placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" value={input} onChange={e => setInput(e.target.value)} className="min-h-[100px] mb-4 font-sans" />
           
           <div className="flex flex-col sm:flex-row gap-3">
             <Button onClick={() => generateWisdom(input)} className="flex-1" disabled={isLoading}>
@@ -216,8 +185,6 @@ const WisdomGenerator = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default WisdomGenerator;
