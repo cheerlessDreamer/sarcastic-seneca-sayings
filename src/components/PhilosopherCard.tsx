@@ -37,7 +37,7 @@ export const PhilosopherCard = ({
           {name}
           {isDisabled && " (Coming soon)"}
         </h3>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className={`text-sm mt-1 ${isSelected ? 'text-primary-foreground' : 'text-muted-foreground'}`}>
           {description}
         </p>
       </div>

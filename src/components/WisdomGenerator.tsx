@@ -90,14 +90,14 @@ const WisdomGenerator = () => {
 
       {/* Philosopher Selection Dialog */}
       <Dialog open={showPhilosopherDialog} onOpenChange={setShowPhilosopherDialog}>
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
             <DialogTitle>Choose Your Philosopher</DialogTitle>
             <DialogDescription>
               Select who will dispense wisdom to you
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
+          <div className="grid gap-4 max-h-[70vh] overflow-y-auto">
             {philosophers.map((name) => (
               <PhilosopherCard
                 key={name}
