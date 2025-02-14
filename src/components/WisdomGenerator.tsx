@@ -1,19 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Copy, Quote, Share2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Add active class after a small delay to trigger the animation
+    const timer = setTimeout(() => {
+      const svg = document.querySelector('.seneca-svg');
+      if (svg) {
+        svg.classList.add('active');
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const generateWisdom = async (userInput?: string) => {
     setIsLoading(true);
     try {
@@ -48,6 +66,7 @@ const WisdomGenerator = () => {
       setIsLoading(false);
     }
   };
+
   const copyToClipboard = async () => {
     await navigator.clipboard.writeText(wisdom);
     toast({
@@ -55,6 +74,7 @@ const WisdomGenerator = () => {
       description: "Wisdom has been copied to clipboard"
     });
   };
+
   const shareWisdom = async () => {
     if (navigator.share && navigator.canShare) {
       try {
@@ -75,10 +95,21 @@ const WisdomGenerator = () => {
       setShowShareDialog(true);
     }
   };
-  return <div className="min-h-screen flex items-center justify-center">
+
+  return (
+    <div className="min-h-screen flex items-center justify-center">
       <div className="max-w-2xl w-full p-6 space-y-8">
         <div className="text-center space-y-4">
-          <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">Seneca says...</h1>
+          <div className="mb-8">
+            <img 
+              src="/seneca.svg" 
+              alt="Seneca illustration" 
+              className="seneca-svg w-48 h-48 mx-auto"
+            />
+          </div>
+          <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
+            Seneca Says...
+          </h1>
           <p className="text-muted-foreground text-lg">
             Modern problems require ancient solutions
           </p>
@@ -144,6 +175,8 @@ const WisdomGenerator = () => {
           </DialogContent>
         </Dialog>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default WisdomGenerator;
