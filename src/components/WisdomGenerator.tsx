@@ -133,7 +133,7 @@ const WisdomGenerator = () => {
       <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Seneca Says...</DialogTitle>
+            <DialogTitle>Seneca says…</DialogTitle>
             
           </DialogHeader>
           <div className="mt-4">
