@@ -17,7 +17,7 @@ export const generateWisdom = async (philosopher: PhilosopherName, userInput?: s
           content: philosopherData[philosopher].systemPrompt
         }, {
           role: "user",
-          content: userInput || "Give me a random piece of sarcastic stoic wisdom about life."
+          content: userInput || "Give me a random piece of wisdom about life."
         }]
       })
     });
