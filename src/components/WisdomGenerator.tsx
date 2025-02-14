@@ -106,14 +106,18 @@ const WisdomGenerator = () => {
           <div className="mb-8">
             <img src="/seneca.svg" alt="Seneca illustration" className="seneca-svg w-full max-w-[640px] h-auto mx-auto" />
           </div>
-          <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">Seneca says...</h1>
-          <p className="text-muted-foreground text-lg">
-            Get sarcastic Stoic wisdom for your modern problems
-          </p>
+          <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
+            Seneca Says...
+          </h1>
         </div>
 
         <Card className="p-6 bg-background/80 backdrop-blur border">
-          <Textarea placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" value={input} onChange={e => setInput(e.target.value)} className="min-h-[100px] mb-4 font-sans" />
+          <Textarea 
+            placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" 
+            value={input} 
+            onChange={e => setInput(e.target.value)} 
+            className="min-h-[100px] mb-4 font-sans" 
+          />
           
           <div className="flex flex-col sm:flex-row gap-3">
             <Button onClick={() => generateWisdom(input)} className="flex-1" disabled={isLoading}>
@@ -127,6 +131,10 @@ const WisdomGenerator = () => {
             </Button>
           </div>
         </Card>
+
+        <p className="text-muted-foreground text-lg text-center">
+          Get sarcastic Stoic wisdom for your modern problems
+        </p>
 
         <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
           <DialogContent className="sm:max-w-2xl">
