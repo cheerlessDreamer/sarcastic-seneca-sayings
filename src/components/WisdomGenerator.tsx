@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -20,18 +20,6 @@ const WisdomGenerator = () => {
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const { toast } = useToast();
-
-  useEffect(() => {
-    // Add active class after a small delay to trigger the animation
-    const timer = setTimeout(() => {
-      const svg = document.querySelector('.seneca-svg');
-      if (svg) {
-        svg.classList.add('active');
-      }
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const generateWisdom = async (userInput?: string) => {
     setIsLoading(true);
