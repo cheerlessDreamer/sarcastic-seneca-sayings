@@ -97,11 +97,7 @@ const WisdomGenerator = () => {
         });
       } catch (error) {
         if ((error as Error).name !== 'AbortError') {
-          toast({
-            title: "Error",
-            description: "Failed to share wisdom",
-            variant: "destructive"
-          });
+          setShowShareDialog(true);
         }
       }
     } else {
