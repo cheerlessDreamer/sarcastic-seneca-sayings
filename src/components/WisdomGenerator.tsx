@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -6,6 +6,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import Vivus from 'vivus';
+
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
@@ -16,6 +18,17 @@ const WisdomGenerator = () => {
   const {
     toast
   } = useToast();
+
+  useEffect(() => {
+    new Vivus('my-svg', {
+      duration: 400,
+      animTimingFunction: Vivus.EASE,
+      file: '/seneca.svg'
+    }, () => {
+      console.log('Animation completed');
+    });
+  }, []);
+
   const shareText = (wisdom: string) => {
     return `${wisdom}\n\nGet your own Stoic wisdom at ${window.location.origin}`;
   };
@@ -92,13 +105,12 @@ const WisdomGenerator = () => {
       setShowShareDialog(true);
     }
   };
-  return <div className="min-h-screen flex flex-col">
+  return (
+    <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center">
         <div className="max-w-2xl w-full p-6 space-y-8">
           <div className="text-center space-y-4">
-            <div className="mb-8">
-              <img src="/seneca.svg" alt="Seneca illustration" className="seneca-svg w-full max-w-[640px] h-auto mx-auto" />
-            </div>
+            <div id="my-svg" className="mb-8"></div>
             <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">Seneca says...</h1>
           </div>
 
@@ -215,6 +227,8 @@ const WisdomGenerator = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </div>;
+    </div>
+  );
 };
+
 export default WisdomGenerator;
