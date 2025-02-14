@@ -120,9 +120,10 @@ const WisdomGenerator = () => {
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="ghost" 
-                    className="font-serif text-4xl md:text-5xl text-foreground font-semibold px-4 py-2 h-auto underline decoration-1 underline-offset-8 hover:decoration-2"
+                    className="font-serif text-4xl md:text-5xl text-foreground font-semibold px-4 py-2 h-auto flex items-center"
                   >
                     {philosopher}
+                    <ChevronDown className="ml-2 h-[1em] w-[1em]" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="center" className="w-48">
