@@ -1,8 +1,9 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { Loader2, Quote, Info, Users } from "lucide-react";
+import { Loader2, Quote, Info, Users, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { PhilosopherIllustration } from "./PhilosopherIllustration";
 import { ShareButtons } from "./ShareDialog";
@@ -89,19 +90,32 @@ const WisdomGenerator = () => {
           </div>
 
           <Card className="p-6 bg-background/80 backdrop-blur border">
-            <Textarea placeholder={placeholder} value={input} onChange={e => setInput(e.target.value)} className="min-h-[100px] mb-4 font-sans" />
+            <Textarea 
+              placeholder={placeholder} 
+              value={input} 
+              onChange={e => setInput(e.target.value)} 
+              className="min-h-[100px] mb-4 font-sans" 
+            />
             
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button onClick={() => handleGenerateWisdom(input)} className="flex-1" disabled={isLoading}>
-                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                Generate Wisdom
-              </Button>
-              
-              <Button onClick={() => handleGenerateWisdom()} variant="outline" className="flex-1" disabled={isLoading}>
-                <Quote className="mr-2 h-4 w-4" />
-                Random Quote
-              </Button>
-            </div>
+            <Button 
+              onClick={() => handleGenerateWisdom(input.trim() || undefined)} 
+              className="w-full" 
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : input.trim() ? (
+                <>
+                  <ArrowRight className="mr-2 h-4 w-4" />
+                  Generate Wisdom
+                </>
+              ) : (
+                <>
+                  <Quote className="mr-2 h-4 w-4" />
+                  Random Quote
+                </>
+              )}
+            </Button>
           </Card>
 
           <p className="text-muted-foreground text-lg text-center">
