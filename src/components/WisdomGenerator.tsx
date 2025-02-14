@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -124,8 +125,8 @@ const WisdomGenerator = () => {
         </div>
       </div>
 
-      {/* FAB for philosopher selection - now in top right */}
-      <div className="fixed top-8 right-8">
+      {/* FAB for philosopher selection - now sticky in top right */}
+      <div className="absolute top-8 right-8">
         <Button 
           size="icon" 
           className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden" 
