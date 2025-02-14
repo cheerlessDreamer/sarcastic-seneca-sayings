@@ -1,11 +1,16 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info } from "lucide-react";
+import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info, ChevronDown } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
 import Vivus from 'vivus';
 
 const WisdomGenerator = () => {
@@ -15,9 +20,8 @@ const WisdomGenerator = () => {
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
-  const {
-    toast
-  } = useToast();
+  const [philosopher, setPhilosopher] = useState("Seneca");
+  const { toast } = useToast();
 
   useEffect(() => {
     new Vivus('my-svg', {
@@ -111,11 +115,40 @@ const WisdomGenerator = () => {
         <div className="max-w-2xl w-full p-6 space-y-8">
           <div className="text-center space-y-4">
             <div id="my-svg" className="mb-8"></div>
-            <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">Seneca says...</h1>
+            <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold flex items-center justify-center gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    className="font-serif text-4xl md:text-5xl text-foreground font-semibold px-2 h-auto"
+                  >
+                    {philosopher}
+                    <ChevronDown className="ml-2 h-6 w-6" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" className="w-48">
+                  <DropdownMenuItem onClick={() => setPhilosopher("Seneca")}>
+                    Seneca
+                  </DropdownMenuItem>
+                  <DropdownMenuItem disabled>
+                    Marcus Aurelius (Coming soon)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem disabled>
+                    Epictetus (Coming soon)
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              says...
+            </h1>
           </div>
 
           <Card className="p-6 bg-background/80 backdrop-blur border">
-            <Textarea placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" value={input} onChange={e => setInput(e.target.value)} className="min-h-[100px] mb-4 font-sans" />
+            <Textarea 
+              placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" 
+              value={input} 
+              onChange={e => setInput(e.target.value)} 
+              className="min-h-[100px] mb-4 font-sans" 
+            />
             
             <div className="flex flex-col sm:flex-row gap-3">
               <Button onClick={() => generateWisdom(input)} className="flex-1" disabled={isLoading}>
