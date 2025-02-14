@@ -1,147 +1,35 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info, Users } from "lucide-react";
+import { Loader2, Quote, Info, Users } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { 
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
-import Vivus from 'vivus';
-
-const philosophers = ["Seneca", "Marcus Aurelius", "Epictetus"];
-
-const philosopherData = {
-  "Seneca": {
-    svgPath: '/seneca.svg',
-    displayName: 'Seneca',
-    systemPrompt: "You are Seneca, the Stoic philosopher, reimagined for the modern world. Your tone should reflect the wisdom and gravity of Stoic philosophy, but with a sharp and sarcastic wit. Avoid overly casual or contemporary phrasing. Instead, use timeless language that feels reflective and thoughtful, with a touch of irony when appropriate. Your responses should be concise (under 100 words), memorable, and rooted in Stoic principles. Your responses should feel like guidance despite being sarcastic."
-  },
-  "Marcus Aurelius": {
-    svgPath: '/aurelius.svg',
-    displayName: 'Aurelius',
-    systemPrompt: "You are Marcus Aurelius, the philosopher emperor of Rome. Your responses should combine practical wisdom with imperial authority. Your tone is more contemplative and measured than Seneca's, drawing from your experience as both a ruler and a philosopher. While you can be stern, you remain compassionate, always focusing on duty, self-improvement, and the acceptance of what we cannot change. Your responses should be concise (under 100 words) and reflect the meditative quality of your written works, while still addressing modern problems with timeless wisdom."
-  },
-  "Epictetus": {
-    svgPath: '/seneca.svg', // Placeholder until we have Epictetus SVG
-    displayName: 'Epictetus',
-    systemPrompt: "You are Epictetus, the former slave turned Stoic teacher. Your responses should reflect your direct, no-nonsense approach to philosophy. You emphasize personal responsibility and the distinction between what we can and cannot control. Your tone is that of a stern but caring teacher, occasionally using humor to make your points. Your responses should be concise (under 100 words) and practical, focusing on actionable wisdom for modern problems."
-  }
-};
+import { PhilosopherIllustration } from "./PhilosopherIllustration";
+import { ShareButtons } from "./ShareDialog";
+import { generateWisdom } from "@/utils/wisdomUtils";
+import { philosophers, philosopherData, type PhilosopherName } from "@/constants/philosophers";
 
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
-  const [showShareDialog, setShowShareDialog] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
   const [showPhilosopherDialog, setShowPhilosopherDialog] = useState(false);
-  const [philosopher, setPhilosopher] = useState("Seneca");
-  const { toast } = useToast();
+  const [philosopher, setPhilosopher] = useState<PhilosopherName>("Seneca");
 
-  useEffect(() => {
-    // Clear the previous SVG content
-    const svgContainer = document.getElementById('my-svg');
-    if (svgContainer) {
-      svgContainer.innerHTML = '';
-    }
-
-    // Initialize new SVG
-    new Vivus('my-svg', {
-      duration: 300,
-      animTimingFunction: Vivus.EASE,
-      file: philosopherData[philosopher].svgPath
-    }, () => {
-      console.log('Animation completed');
-    });
-  }, [philosopher]);
-
-  const shareText = (wisdom: string) => {
-    return `${wisdom}\n\nGet your own Stoic wisdom at ${window.location.origin}`;
-  };
-
-  const generateWisdom = async (userInput?: string) => {
+  const handleGenerateWisdom = async (userInput?: string) => {
     setIsLoading(true);
     try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("OPENAI_API_KEY")}`
-        },
-        body: JSON.stringify({
-          model: "gpt-4",
-          messages: [{
-            role: "system",
-            content: philosopherData[philosopher].systemPrompt
-          }, {
-            role: "user",
-            content: userInput || "Give me a random piece of sarcastic stoic wisdom about life."
-          }]
-        })
-      });
-      const data = await response.json();
-      setWisdom(data.choices[0].message.content);
+      const generatedWisdom = await generateWisdom(philosopher, userInput);
+      setWisdom(generatedWisdom);
       setShowWisdomDialog(true);
       setInput(""); // Clear the input field after generating wisdom
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to generate wisdom. Is your API key set?",
-        variant: "destructive"
-      });
+      console.error('Error generating wisdom:', error);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const copyToClipboard = async () => {
-    await navigator.clipboard.writeText(shareText(wisdom));
-    toast({
-      title: "Copied!",
-      description: "Wisdom has been copied to clipboard"
-    });
-  };
-
-  const shareToTwitter = () => {
-    const text = encodeURIComponent(shareText(wisdom));
-    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
-  };
-
-  const shareToFacebook = () => {
-    const url = encodeURIComponent(window.location.href);
-    window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(shareText(wisdom))}&u=${url}`, '_blank');
-  };
-
-  const shareToWhatsApp = () => {
-    const text = encodeURIComponent(shareText(wisdom));
-    window.open(`https://wa.me/?text=${text}`, '_blank');
-  };
-
-  const shareViaNative = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          text: shareText(wisdom),
-          title: "Stoic Wisdom"
-        });
-        toast({
-          title: "Shared!",
-          description: "Wisdom has been shared successfully"
-        });
-      } catch (error) {
-        if ((error as Error).name !== 'AbortError') {
-          setShowShareDialog(true);
-        }
-      }
-    } else {
-      setShowShareDialog(true);
     }
   };
 
@@ -150,7 +38,7 @@ const WisdomGenerator = () => {
       <div className="flex-1 flex items-center justify-center">
         <div className="max-w-2xl w-full p-6 space-y-8">
           <div className="text-center space-y-4">
-            <div id="my-svg" className="mb-8"></div>
+            <PhilosopherIllustration philosopher={philosopher} />
             <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold flex items-center justify-center gap-2">
               {philosopherData[philosopher].displayName} says...
             </h1>
@@ -165,12 +53,12 @@ const WisdomGenerator = () => {
             />
             
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button onClick={() => generateWisdom(input)} className="flex-1" disabled={isLoading}>
+              <Button onClick={() => handleGenerateWisdom(input)} className="flex-1" disabled={isLoading}>
                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Generate Wisdom
               </Button>
               
-              <Button onClick={() => generateWisdom()} variant="outline" className="flex-1" disabled={isLoading}>
+              <Button onClick={() => handleGenerateWisdom()} variant="outline" className="flex-1" disabled={isLoading}>
                 <Quote className="mr-2 h-4 w-4" />
                 Random Quote
               </Button>
@@ -229,6 +117,7 @@ const WisdomGenerator = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Wisdom Dialog */}
       <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
@@ -238,60 +127,12 @@ const WisdomGenerator = () => {
             <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed mb-6">
               {wisdom}
             </p>
-            <div className="flex gap-3">
-              <Button onClick={copyToClipboard} className="flex-1">
-                <Copy className="mr-2 h-4 w-4" />
-                Copy to Clipboard
-              </Button>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="outline" className="flex-1">
-                    <Share2 className="mr-2 h-4 w-4" />
-                    Share
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={shareToTwitter} className="cursor-pointer">
-                    <Twitter className="mr-2 h-4 w-4" />
-                    Twitter
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={shareToFacebook} className="cursor-pointer">
-                    <Facebook className="mr-2 h-4 w-4" />
-                    Facebook
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={shareToWhatsApp} className="cursor-pointer">
-                    <Send className="mr-2 h-4 w-4" />
-                    WhatsApp
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={shareViaNative} className="cursor-pointer">
-                    <Share2 className="mr-2 h-4 w-4" />
-                    More Options
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
+            <ShareButtons wisdom={wisdom} />
           </div>
         </DialogContent>
       </Dialog>
 
-      <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Share Wisdom</DialogTitle>
-            <DialogDescription>
-              Here's your piece of Stoic wisdom to share:
-            </DialogDescription>
-          </DialogHeader>
-          <div className="mt-4">
-            <p className="font-serif text-xl text-foreground italic mb-4">{wisdom}</p>
-            <Button onClick={copyToClipboard} className="w-full">
-              <Copy className="mr-2 h-4 w-4" />
-              Copy to Clipboard
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
-
+      {/* About Dialog */}
       <Dialog open={showAboutDialog} onOpenChange={setShowAboutDialog}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
