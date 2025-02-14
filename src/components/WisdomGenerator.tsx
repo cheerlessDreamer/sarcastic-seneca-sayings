@@ -3,15 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info, ChevronDown } from "lucide-react";
+import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info, Users } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
-} from "@/components/ui/dropdown-menu";
 import Vivus from 'vivus';
+
+const philosophers = ["Seneca", "Marcus Aurelius", "Epictetus"];
 
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
@@ -20,6 +16,7 @@ const WisdomGenerator = () => {
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
+  const [showPhilosopherDialog, setShowPhilosopherDialog] = useState(false);
   const [philosopher, setPhilosopher] = useState("Seneca");
   const { toast } = useToast();
 
@@ -109,6 +106,7 @@ const WisdomGenerator = () => {
       setShowShareDialog(true);
     }
   };
+
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center">
@@ -116,29 +114,7 @@ const WisdomGenerator = () => {
           <div className="text-center space-y-4">
             <div id="my-svg" className="mb-8"></div>
             <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold flex items-center justify-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    className="font-serif text-4xl md:text-5xl text-foreground font-semibold px-4 py-2 h-auto flex items-center [&_svg]:h-8 [&_svg]:w-8 [&_svg]:translate-y-1"
-                  >
-                    {philosopher}
-                    <ChevronDown className="ml-2" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="w-48">
-                  <DropdownMenuItem onClick={() => setPhilosopher("Seneca")}>
-                    Seneca
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    Marcus Aurelius (Coming soon)
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    Epictetus (Coming soon)
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-              says...
+              {philosopher} says...
             </h1>
           </div>
 
@@ -169,11 +145,51 @@ const WisdomGenerator = () => {
         </div>
       </div>
 
+      {/* FAB for philosopher selection */}
+      <div className="fixed bottom-8 right-8">
+        <Button 
+          size="icon"
+          className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow"
+          onClick={() => setShowPhilosopherDialog(true)}
+        >
+          <Users className="h-6 w-6" />
+        </Button>
+      </div>
+
       <footer className="p-4 flex justify-center">
         <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent" onClick={() => setShowAboutDialog(true)}>
           <Info className="h-6 w-6 text-muted-foreground" />
         </Button>
       </footer>
+
+      {/* Philosopher Selection Dialog */}
+      <Dialog open={showPhilosopherDialog} onOpenChange={setShowPhilosopherDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Choose Your Philosopher</DialogTitle>
+            <DialogDescription>
+              Select who will dispense wisdom to you
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4">
+            {philosophers.map((name) => (
+              <Button
+                key={name}
+                variant={philosopher === name ? "default" : "outline"}
+                className="w-full justify-start text-left"
+                onClick={() => {
+                  setPhilosopher(name);
+                  setShowPhilosopherDialog(false);
+                }}
+                disabled={name !== "Seneca"}
+              >
+                {name}
+                {name !== "Seneca" && " (Coming soon)"}
+              </Button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
         <DialogContent className="sm:max-w-2xl">
