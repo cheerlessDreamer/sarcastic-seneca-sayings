@@ -17,6 +17,7 @@ const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const { toast } = useToast();
 
@@ -46,6 +47,8 @@ const WisdomGenerator = () => {
 
       const data = await response.json();
       setWisdom(data.choices[0].message.content);
+      setShowWisdomDialog(true);
+      setInput(""); // Clear the input field after generating wisdom
     } catch (error) {
       toast({
         title: "Error",
@@ -130,33 +133,38 @@ const WisdomGenerator = () => {
           </div>
         </Card>
 
-        {wisdom && (
-          <Card className="p-6 bg-background/80 backdrop-blur border animate-fade-up">
-            <div className="flex justify-between items-start gap-4">
-              <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed">
+        <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
+          <DialogContent className="sm:max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>Seneca Says...</DialogTitle>
+              <DialogDescription>
+                Here's your piece of Stoic wisdom:
+              </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4">
+              <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed mb-6">
                 {wisdom}
               </p>
-              <div className="flex flex-col gap-2">
-                <Button
-                  variant="ghost"
-                  size="icon"
+              <div className="flex gap-3">
+                <Button 
                   onClick={copyToClipboard}
-                  className="flex-shrink-0"
+                  className="flex-1"
                 >
-                  <Copy className="h-4 w-4" />
+                  <Copy className="mr-2 h-4 w-4" />
+                  Copy to Clipboard
                 </Button>
                 <Button
-                  variant="ghost"
-                  size="icon"
                   onClick={shareWisdom}
-                  className="flex-shrink-0"
+                  variant="outline"
+                  className="flex-1"
                 >
-                  <Share2 className="h-4 w-4" />
+                  <Share2 className="mr-2 h-4 w-4" />
+                  Share
                 </Button>
               </div>
             </div>
-          </Card>
-        )}
+          </DialogContent>
+        </Dialog>
 
         <Dialog open={showShareDialog} onOpenChange={setShowShareDialog}>
           <DialogContent>
