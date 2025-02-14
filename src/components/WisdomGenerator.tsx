@@ -94,7 +94,7 @@ const WisdomGenerator = () => {
       <div className="max-w-2xl w-full p-6 space-y-8">
         <div className="text-center space-y-4">
           <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold">
-            What Would Seneca Do?
+            Seneca Says...
           </h1>
           <p className="text-muted-foreground text-lg">
             Modern problems require ancient solutions

@@ -1,5 +1,5 @@
 
-# What Would Seneca Do? - Modern Stoic Wisdom Generator
+# Seneca Says... - Modern Stoic Wisdom Generator
 
 A modern take on ancient Stoic wisdom, delivering sarcastic and witty philosophical advice for contemporary problems. This project uses OpenAI's GPT-4 to generate Stoic-inspired wisdom with a humorous twist, channeling the spirit of Seneca in a way that speaks to today's challenges.
 
