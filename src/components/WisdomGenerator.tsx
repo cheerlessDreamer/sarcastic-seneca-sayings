@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Copy, Quote, Share2 } from "lucide-react";
+import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -12,6 +11,12 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
@@ -64,8 +69,23 @@ const WisdomGenerator = () => {
     });
   };
 
-  const shareWisdom = async () => {
-    if (navigator.share && navigator.canShare) {
+  const shareToTwitter = () => {
+    const text = encodeURIComponent(wisdom);
+    window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank');
+  };
+
+  const shareToFacebook = () => {
+    const url = encodeURIComponent(window.location.href);
+    window.open(`https://www.facebook.com/sharer/sharer.php?quote=${encodeURIComponent(wisdom)}&u=${url}`, '_blank');
+  };
+
+  const shareToWhatsApp = () => {
+    const text = encodeURIComponent(wisdom);
+    window.open(`https://wa.me/?text=${text}`, '_blank');
+  };
+
+  const shareViaNative = async () => {
+    if (navigator.share) {
       try {
         await navigator.share({
           text: wisdom,
@@ -77,7 +97,11 @@ const WisdomGenerator = () => {
         });
       } catch (error) {
         if ((error as Error).name !== 'AbortError') {
-          setShowShareDialog(true);
+          toast({
+            title: "Error",
+            description: "Failed to share wisdom",
+            variant: "destructive"
+          });
         }
       }
     } else {
@@ -105,7 +129,12 @@ const WisdomGenerator = () => {
         </div>
 
         <Card className="p-6 bg-background/80 backdrop-blur border">
-          <Textarea placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" value={input} onChange={e => setInput(e.target.value)} className="min-h-[100px] mb-4 font-sans" />
+          <Textarea 
+            placeholder="Describe your situation (e.g., 'I'm procrastinating' or 'I'm stressed about work')" 
+            value={input} 
+            onChange={e => setInput(e.target.value)} 
+            className="min-h-[100px] mb-4 font-sans" 
+          />
           
           <div className="flex flex-col sm:flex-row gap-3">
             <Button onClick={() => generateWisdom(input)} className="flex-1" disabled={isLoading}>
@@ -137,10 +166,32 @@ const WisdomGenerator = () => {
                   <Copy className="mr-2 h-4 w-4" />
                   Copy to Clipboard
                 </Button>
-                <Button onClick={shareWisdom} variant="outline" className="flex-1">
-                  <Share2 className="mr-2 h-4 w-4" />
-                  Share
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" className="flex-1">
+                      <Share2 className="mr-2 h-4 w-4" />
+                      Share
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem onClick={shareToTwitter} className="cursor-pointer">
+                      <Twitter className="mr-2 h-4 w-4" />
+                      Twitter
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={shareToFacebook} className="cursor-pointer">
+                      <Facebook className="mr-2 h-4 w-4" />
+                      Facebook
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={shareToWhatsApp} className="cursor-pointer">
+                      <Send className="mr-2 h-4 w-4" />
+                      WhatsApp
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={shareViaNative} className="cursor-pointer">
+                      <Share2 className="mr-2 h-4 w-4" />
+                      More Options
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
           </DialogContent>
