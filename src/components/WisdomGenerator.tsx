@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
-import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info, ChevronDown } from "lucide-react";
+import { Loader2, Copy, Quote, Share2, Twitter, Facebook, Send, Info, ChevronLeft, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { 
   DropdownMenu, 
@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Vivus from 'vivus';
 
+const philosophers = ["Seneca", "Marcus Aurelius", "Epictetus"];
+
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
@@ -20,8 +22,24 @@ const WisdomGenerator = () => {
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showShareDialog, setShowShareDialog] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
-  const [philosopher, setPhilosopher] = useState("Seneca");
+  const [philosopherIndex, setPhilosopherIndex] = useState(0);
   const { toast } = useToast();
+
+  const philosopher = philosophers[philosopherIndex];
+  const isFirst = philosopherIndex === 0;
+  const isLast = philosopherIndex === philosophers.length - 1;
+
+  const nextPhilosopher = () => {
+    if (!isLast) {
+      setPhilosopherIndex(prev => prev + 1);
+    }
+  };
+
+  const previousPhilosopher = () => {
+    if (!isFirst) {
+      setPhilosopherIndex(prev => prev - 1);
+    }
+  };
 
   useEffect(() => {
     new Vivus('my-svg', {
@@ -116,28 +134,27 @@ const WisdomGenerator = () => {
           <div className="text-center space-y-4">
             <div id="my-svg" className="mb-8"></div>
             <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold flex items-center justify-center gap-2">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    className="font-serif text-4xl md:text-5xl text-foreground font-semibold px-4 py-2 h-auto flex items-center [&_svg]:h-8 [&_svg]:w-8 [&_svg]:translate-y-1"
-                  >
-                    {philosopher}
-                    <ChevronDown className="ml-2" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="center" className="w-48">
-                  <DropdownMenuItem onClick={() => setPhilosopher("Seneca")}>
-                    Seneca
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    Marcus Aurelius (Coming soon)
-                  </DropdownMenuItem>
-                  <DropdownMenuItem disabled>
-                    Epictetus (Coming soon)
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <div className="flex items-center gap-4">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={previousPhilosopher}
+                  disabled={isFirst}
+                  className="opacity-75 hover:opacity-100 transition-opacity"
+                >
+                  <ChevronLeft className="h-6 w-6" />
+                </Button>
+                <span className="min-w-[200px]">{philosopher}</span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={nextPhilosopher}
+                  disabled={isLast}
+                  className="opacity-75 hover:opacity-100 transition-opacity"
+                >
+                  <ChevronRight className="h-6 w-6" />
+                </Button>
+              </div>
               says...
             </h1>
           </div>
@@ -163,9 +180,14 @@ const WisdomGenerator = () => {
             </div>
           </Card>
 
-          <p className="text-muted-foreground text-lg text-center">
-            Get sarcastic Stoic wisdom for your modern problems
-          </p>
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-muted-foreground text-lg text-center">
+              Get sarcastic Stoic wisdom for your modern problems
+            </p>
+            <p className="text-sm text-muted-foreground">
+              {philosopherIndex + 1} of {philosophers.length} philosophers available
+            </p>
+          </div>
         </div>
       </div>
 
