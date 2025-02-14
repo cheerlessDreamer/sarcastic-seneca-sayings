@@ -155,7 +155,7 @@ export type Database = {
           id: number
           philosopher: string | null
           philosopher_instructions: string | null
-          reference: number | null
+          reference: number
           response: string | null
         }
         Insert: {
@@ -163,7 +163,7 @@ export type Database = {
           id?: number
           philosopher?: string | null
           philosopher_instructions?: string | null
-          reference?: number | null
+          reference: number
           response?: string | null
         }
         Update: {
@@ -171,7 +171,7 @@ export type Database = {
           id?: number
           philosopher?: string | null
           philosopher_instructions?: string | null
-          reference?: number | null
+          reference?: number
           response?: string | null
         }
         Relationships: []
