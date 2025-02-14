@@ -26,7 +26,6 @@ const WisdomGenerator = () => {
   useEffect(() => {
     new Vivus('my-svg', {
       duration: 400,
-      animTimingFunction: Vivus.EASE,
       file: '/seneca.svg'
     }, () => {
       console.log('Animation completed');
