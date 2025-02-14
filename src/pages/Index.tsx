@@ -1,3 +1,4 @@
+
 import WisdomGenerator from "@/components/WisdomGenerator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,12 +23,12 @@ const Index = () => {
 
   if (showApiKeyInput) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-parchment-50 p-6">
+      <div className="min-h-screen flex items-center justify-center bg-background p-6">
         <div className="max-w-md w-full space-y-6 text-center">
-          <h1 className="font-serif text-3xl text-sage-800 font-semibold">
+          <h1 className="font-serif text-3xl text-foreground font-semibold">
             Enter OpenAI API Key
           </h1>
-          <p className="text-sage-600">
+          <p className="text-muted-foreground">
             To generate Stoic wisdom, please enter your OpenAI API key
           </p>
           <div className="space-y-4">
@@ -40,7 +41,7 @@ const Index = () => {
             />
             <Button
               onClick={saveApiKey}
-              className="w-full bg-sage-600 hover:bg-sage-700"
+              className="w-full"
             >
               Save API Key
             </Button>
