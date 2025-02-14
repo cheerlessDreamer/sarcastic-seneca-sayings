@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -132,7 +133,7 @@ const WisdomGenerator = () => {
         {wisdom && (
           <Card className="p-6 bg-background/80 backdrop-blur border animate-fade-up">
             <div className="flex justify-between items-start gap-4">
-              <p className="font-serif text-lg text-foreground italic">
+              <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed">
                 {wisdom}
               </p>
               <div className="flex flex-col gap-2">
@@ -166,7 +167,7 @@ const WisdomGenerator = () => {
               </DialogDescription>
             </DialogHeader>
             <div className="mt-4">
-              <p className="font-serif text-lg text-foreground italic mb-4">{wisdom}</p>
+              <p className="font-serif text-xl text-foreground italic mb-4">{wisdom}</p>
               <Button 
                 onClick={copyToClipboard} 
                 className="w-full"
