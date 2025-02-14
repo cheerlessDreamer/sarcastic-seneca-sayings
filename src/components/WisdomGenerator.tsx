@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -9,14 +9,11 @@ import { ShareButtons } from "./ShareDialog";
 import { generateWisdom } from "@/utils/wisdomUtils";
 import { philosophers, philosopherData, philosopherDescriptions, type PhilosopherName } from "@/constants/philosophers";
 import { PhilosopherCard } from "./PhilosopherCard";
-
 const placeholderQuestions = ["What vexes thy spirit?", "What counsel dost thou seek?", "What burden weighs upon thy thoughts?", "What wisdom dost thou seek?", "What matter requires contemplation?"];
-
 const getRandomPlaceholder = () => {
   const randomIndex = Math.floor(Math.random() * placeholderQuestions.length);
   return placeholderQuestions[randomIndex];
 };
-
 const WisdomGenerator = () => {
   const [input, setInput] = useState("");
   const [wisdom, setWisdom] = useState("");
@@ -26,102 +23,66 @@ const WisdomGenerator = () => {
   const [showPhilosopherDialog, setShowPhilosopherDialog] = useState(false);
   const [philosopher, setPhilosopher] = useState<PhilosopherName>("Seneca");
   const [placeholder, setPlaceholder] = useState(getRandomPlaceholder());
-
   const handleGenerateWisdom = async (userInput?: string) => {
     setIsLoading(true);
     try {
       const generatedWisdom = await generateWisdom(philosopher, userInput);
       setWisdom(generatedWisdom);
       setShowWisdomDialog(true);
-      setInput(""); 
-      setPlaceholder(getRandomPlaceholder());
+      setInput(""); // Clear the input field after generating wisdom
+      setPlaceholder(getRandomPlaceholder()); // Set new random placeholder
     } catch (error) {
       console.error('Error generating wisdom:', error);
     } finally {
       setIsLoading(false);
     }
   };
-
-  return (
-    <div className="min-h-screen flex flex-col bg-background">
-      <div className="flex-1 flex flex-col">
-        <div className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-4 py-6">
-          <div className="flex-1 flex flex-col justify-end space-y-6 mb-6">
-            {wisdom && (
-              <div className="flex items-start gap-4 animate-fade-up">
-                <div className="w-8 h-8 rounded-full overflow-hidden flex-shrink-0">
-                  <img 
-                    src={philosopherData[philosopher].imageSrc} 
-                    alt={philosopher} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1 bg-secondary/50 rounded-lg p-4 prose prose-invert">
-                  <p className="text-foreground text-lg leading-relaxed m-0">
-                    {wisdom}
-                  </p>
-                </div>
-              </div>
-            )}
+  return <div className="min-h-screen flex flex-col">
+      <div className="flex-1 flex items-center justify-center">
+        <div className="max-w-2xl w-full p-6 space-y-8">
+          <div className="text-center space-y-4">
+            <PhilosopherIllustration philosopher={philosopher} />
+            <h1 className="font-serif text-4xl md:text-5xl text-foreground font-semibold flex items-center justify-center gap-2">
+              {philosopherData[philosopher].displayName} says&hellip;
+            </h1>
           </div>
 
-          <div className="border-t border-muted pt-4">
-            <Card className="bg-background border-muted">
-              <div className="p-4">
-                <Textarea 
-                  placeholder={placeholder}
-                  value={input} 
-                  onChange={e => setInput(e.target.value)} 
-                  className="min-h-[100px] mb-4 bg-background text-foreground border-muted resize-none focus:ring-primary/20" 
-                />
-                
-                <div className="flex gap-3">
-                  <Button 
-                    onClick={() => handleGenerateWisdom(input)} 
-                    className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90" 
-                    disabled={isLoading}
-                  >
-                    {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-                    Generate Wisdom
-                  </Button>
-                  
-                  <Button 
-                    onClick={() => handleGenerateWisdom()} 
-                    variant="outline" 
-                    className="flex-1 border-muted hover:bg-secondary" 
-                    disabled={isLoading}
-                  >
-                    <Quote className="mr-2 h-4 w-4" />
-                    Random Quote
-                  </Button>
-                </div>
-              </div>
-            </Card>
-          </div>
+          <Card className="p-6 bg-background/80 backdrop-blur border">
+            <Textarea placeholder={placeholder} value={input} onChange={e => setInput(e.target.value)} className="min-h-[100px] mb-4 font-sans" />
+            
+            <div className="flex flex-col sm:flex-row gap-3">
+              <Button onClick={() => handleGenerateWisdom(input)} className="flex-1" disabled={isLoading}>
+                {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                Generate Wisdom
+              </Button>
+              
+              <Button onClick={() => handleGenerateWisdom()} variant="outline" className="flex-1" disabled={isLoading}>
+                <Quote className="mr-2 h-4 w-4" />
+                Random Quote
+              </Button>
+            </div>
+          </Card>
+
+          <p className="text-muted-foreground text-lg text-center">
+            Ancient wisdom for modern problems
+          </p>
         </div>
       </div>
 
+      {/* FAB for philosopher selection */}
       <div className="fixed bottom-8 right-8">
-        <Button 
-          size="icon" 
-          className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow bg-primary text-primary-foreground hover:bg-primary/90" 
-          onClick={() => setShowPhilosopherDialog(true)}
-        >
+        <Button size="icon" className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-shadow" onClick={() => setShowPhilosopherDialog(true)}>
           <Users className="h-6 w-6" />
         </Button>
       </div>
 
       <footer className="p-4 flex justify-center">
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="rounded-full hover:bg-secondary" 
-          onClick={() => setShowAboutDialog(true)}
-        >
+        <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent" onClick={() => setShowAboutDialog(true)}>
           <Info className="h-6 w-6 text-muted-foreground" />
         </Button>
       </footer>
 
+      {/* Philosopher Selection Dialog */}
       <Dialog open={showPhilosopherDialog} onOpenChange={setShowPhilosopherDialog}>
         <DialogContent className="sm:max-w-xl">
           <DialogHeader>
@@ -139,6 +100,7 @@ const WisdomGenerator = () => {
         </DialogContent>
       </Dialog>
 
+      {/* Wisdom Dialog */}
       <Dialog open={showWisdomDialog} onOpenChange={setShowWisdomDialog}>
         <DialogContent className="sm:max-w-2xl">
           <DialogHeader>
@@ -153,6 +115,7 @@ const WisdomGenerator = () => {
         </DialogContent>
       </Dialog>
 
+      {/* About Dialog */}
       <Dialog open={showAboutDialog} onOpenChange={setShowAboutDialog}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
@@ -174,8 +137,6 @@ const WisdomGenerator = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>;
 };
-
 export default WisdomGenerator;
