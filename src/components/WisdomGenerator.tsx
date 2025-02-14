@@ -67,7 +67,7 @@ const WisdomGenerator = () => {
           </Card>
 
           <p className="text-muted-foreground text-lg text-center">
-            Get sarcastic Stoic wisdom for your modern problems
+            Ancient wisdom for modern problems
           </p>
         </div>
       </div>
