@@ -1,10 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { Loader2, Quote, Info, ArrowRight } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Loader2, Quote, Info, ArrowRight, SendHorizonal } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { PhilosopherIllustration } from "./PhilosopherIllustration";
 import { ShareButtons } from "./ShareDialog";
 import { generateWisdom } from "@/utils/wisdomUtils";
@@ -91,6 +90,14 @@ const WisdomGenerator = () => {
     }
   };
 
+  const handleSuggestPhilosopher = () => {
+    window.open('https://github.com/your-repo/issues/new?template=philosopher-suggestion.md', '_blank');
+    toast({
+      title: "Thank you!",
+      description: "We appreciate your suggestion for new philosophers.",
+    });
+  };
+
   return <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center">
         <div className="max-w-2xl w-full p-6 space-y-8">
@@ -173,6 +180,17 @@ const WisdomGenerator = () => {
             setShowPhilosopherDialog(false);
           }} />)}
           </div>
+          <DialogFooter className="mt-4">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="w-full text-muted-foreground hover:text-primary flex items-center gap-2"
+              onClick={handleSuggestPhilosopher}
+            >
+              <SendHorizonal className="h-4 w-4" />
+              Suggest a philosopher
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
