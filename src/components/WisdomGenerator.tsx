@@ -43,6 +43,7 @@ const WisdomGenerator = () => {
       duration: 1000,
       once: true,
       easing: 'ease-out-cubic',
+      offset: 20, // Reduced from default 120
     });
   }, []);
 
@@ -93,14 +94,14 @@ const WisdomGenerator = () => {
   return <div className="min-h-screen flex flex-col">
       <div className="flex-1 flex items-center justify-center">
         <div className="max-w-2xl w-full p-6 space-y-8">
-          <div className="text-center space-y-4" data-aos="fade-down">
+          <div className="text-center space-y-4" data-aos="fade-down" data-aos-offset="10">
             <PhilosopherIllustration philosopher={philosopher} />
             <h1 className="font-serif text-4xl md:text-5xl text-primary/80 font-medium flex items-center justify-center gap-2">
               {philosopherData[philosopher].displayName} says&hellip;
             </h1>
           </div>
 
-          <Card className="p-6 bg-background/80 backdrop-blur border" data-aos="fade-up" data-aos-delay="200">
+          <Card className="p-6 bg-background/80 backdrop-blur border" data-aos="fade-up" data-aos-offset="10" data-aos-delay="200">
             <Textarea 
               placeholder={placeholder} 
               value={input} 
@@ -129,14 +130,14 @@ const WisdomGenerator = () => {
             </Button>
           </Card>
 
-          <p className="text-muted-foreground text-lg text-center" data-aos="fade-up" data-aos-delay="400">
+          <p className="text-muted-foreground text-lg text-center" data-aos="fade-up" data-aos-offset="10" data-aos-delay="400">
             Ancient wisdom for modern problems
           </p>
         </div>
       </div>
 
       {/* FAB for philosopher selection - now sticky in top right */}
-      <div className="absolute top-8 right-8" data-aos="fade-left" data-aos-delay="600">
+      <div className="absolute top-8 right-8" data-aos="fade-left" data-aos-offset="10" data-aos-delay="600">
         <Button 
           size="icon" 
           className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden" 
@@ -150,7 +151,7 @@ const WisdomGenerator = () => {
         </Button>
       </div>
 
-      <footer className="p-4 flex justify-center gap-4" data-aos="fade-up" data-aos-delay="800">
+      <footer className="p-4 flex justify-center gap-4" data-aos="fade-up" data-aos-offset="10" data-aos-delay="800">
         <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent" onClick={() => setShowAboutDialog(true)}>
           <Info className="h-6 w-6 text-primary" />
         </Button>
