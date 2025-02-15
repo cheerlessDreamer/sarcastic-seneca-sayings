@@ -10,7 +10,6 @@ A modern take on ancient Stoic wisdom, delivering sarcastic and witty philosophi
 - 🌙 Dark/Light mode support
 - 📋 Easy copying of generated wisdom
 - 📱 Share functionality across different platforms
-- 💫 Modern, responsive UI with smooth animations
 
 ## Getting Started
 
