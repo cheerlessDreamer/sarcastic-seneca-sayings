@@ -1,32 +1,24 @@
 
 import { toast } from "@/components/ui/use-toast";
 import { PhilosopherName, philosopherData } from "@/constants/philosophers";
+import { supabase } from "@/integrations/supabase/client";
 
 export const generateWisdom = async (philosopher: PhilosopherName, userInput?: string) => {
   try {
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${localStorage.getItem("OPENAI_API_KEY")}`
-      },
-      body: JSON.stringify({
-        model: "gpt-4",
-        messages: [{
-          role: "system",
-          content: philosopherData[philosopher].systemPrompt
-        }, {
-          role: "user",
-          content: userInput || "Give me a random piece of wisdom about life."
-        }]
-      })
+    const { data, error } = await supabase.functions.invoke('generate-wisdom', {
+      body: {
+        philosopher,
+        userInput,
+        systemPrompt: philosopherData[philosopher].systemPrompt
+      }
     });
-    const data = await response.json();
-    return data.choices[0].message.content;
+
+    if (error) throw error;
+    return data.wisdom;
   } catch (error) {
     toast({
       title: "Error",
-      description: "Failed to generate wisdom. Is your API key set?",
+      description: "Failed to generate wisdom. Please try again.",
       variant: "destructive"
     });
     throw error;

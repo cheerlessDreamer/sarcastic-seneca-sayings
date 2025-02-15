@@ -1,3 +1,6 @@
 
 [functions.suggestion-notification]
 verify_jwt = false
+
+[functions.generate-wisdom]
+verify_jwt = false
