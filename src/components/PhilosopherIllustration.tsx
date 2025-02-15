@@ -20,8 +20,6 @@ export const PhilosopherIllustration = ({ philosopher }: PhilosopherIllustration
       duration: 300,
       animTimingFunction: Vivus.EASE,
       file: philosopherData[philosopher].svgPath
-    }, () => {
-      console.log('Animation completed');
     });
   }, [philosopher]);
 
