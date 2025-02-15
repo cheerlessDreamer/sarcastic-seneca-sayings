@@ -112,26 +112,17 @@ const WisdomGenerator = () => {
       </div>
 
       <div className="absolute top-8 right-8" data-aos="fade-left" data-aos-offset="10" data-aos-delay="600">
-        <div className="relative">
-          <Button 
-            size="icon" 
-            className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden" 
-            onClick={() => setShowPhilosopherDialog(true)}
-          >
-            <img 
-              src={philosopherData[philosopher].imageSrc} 
-              alt={philosopherData[philosopher].displayName}
-              className="w-full h-full object-cover hover:scale-110 transition-transform"
-            />
-          </Button>
-          <div 
-            className="absolute bottom-0 right-0 w-6 h-6 transform translate-x-[80%] translate-y-[20%]"
-            style={{ 
-              backgroundColor: 'var(--background)',
-              clipPath: 'polygon(0 0, 0% 100%, 100% 0)'
-            }}
+        <Button 
+          size="icon" 
+          className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden" 
+          onClick={() => setShowPhilosopherDialog(true)}
+        >
+          <img 
+            src={philosopherData[philosopher].imageSrc} 
+            alt={philosopherData[philosopher].displayName}
+            className="w-full h-full object-cover hover:scale-110 transition-transform"
           />
-        </div>
+        </Button>
       </div>
 
       <footer className="p-4 flex justify-center gap-4" data-aos="fade-up" data-aos-offset="10" data-aos-delay="800">
