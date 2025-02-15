@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,7 +6,6 @@ import { Loader2, Quote, Info, ArrowRight } from "lucide-react";
 import { PhilosopherIllustration } from "./PhilosopherIllustration";
 import { generateWisdom } from "@/utils/wisdomUtils";
 import { philosopherData, type PhilosopherName } from "@/constants/philosophers";
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
 import { ThemeToggle } from "./ThemeToggle";
 import AOS from 'aos';
@@ -55,26 +53,6 @@ const WisdomGenerator = () => {
       const generatedWisdom = await generateWisdom(philosopher, userInput);
       const newReference = generateReference();
       
-      const { error } = await supabase
-        .from('seneca-says')
-        .insert({
-          philosopher: philosopher,
-          philosopher_instructions: philosopherData[philosopher].systemPrompt,
-          response: generatedWisdom,
-          reference: newReference,
-          request: userInput
-        });
-
-      if (error) {
-        console.error('Error saving to database:', error);
-        toast({
-          title: "Error",
-          description: "Failed to save wisdom to database",
-          variant: "destructive"
-        });
-        return;
-      }
-
       setWisdom(generatedWisdom);
       setReference(newReference);
       setShowWisdomDialog(true);
