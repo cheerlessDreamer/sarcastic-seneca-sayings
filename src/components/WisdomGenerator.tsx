@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -12,6 +13,8 @@ import { PhilosopherCard } from "./PhilosopherCard";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/use-toast";
 import { ThemeToggle } from "./ThemeToggle";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
@@ -34,15 +37,22 @@ const WisdomGenerator = () => {
   const [showWisdomDialog, setShowWisdomDialog] = useState(false);
   const [showAboutDialog, setShowAboutDialog] = useState(false);
   const [showPhilosopherDialog, setShowPhilosopherDialog] = useState(false);
+  const [showSuggestionDialog, setShowSuggestionDialog] = useState(false);
   const [philosopher, setPhilosopher] = useState<PhilosopherName>("Seneca");
   const [placeholder, setPlaceholder] = useState(getRandomPlaceholder());
+  const [isSending, setIsSending] = useState(false);
+  const [suggestionForm, setSuggestionForm] = useState({
+    name: '',
+    description: '',
+    email: ''
+  });
 
   useEffect(() => {
     AOS.init({
       duration: 1000,
       once: true,
       easing: 'ease-out-cubic',
-      offset: 20, // Reduced from default 120
+      offset: 20,
     });
   }, []);
 
@@ -91,11 +101,39 @@ const WisdomGenerator = () => {
   };
 
   const handleSuggestPhilosopher = () => {
-    window.open('https://github.com/your-repo/issues/new?template=philosopher-suggestion.md', '_blank');
-    toast({
-      title: "Thank you!",
-      description: "We appreciate your suggestion for new philosophers.",
-    });
+    setShowSuggestionDialog(true);
+    setShowPhilosopherDialog(false);
+  };
+
+  const handleSubmitSuggestion = async () => {
+    setIsSending(true);
+    try {
+      const { error } = await supabase
+        .from('seneca-says_philosopher_suggestions')
+        .insert({
+          name: suggestionForm.name,
+          description: suggestionForm.description,
+          submitter_email: suggestionForm.email || null
+        });
+
+      if (error) throw error;
+
+      toast({
+        title: "Thank you!",
+        description: "Your philosopher suggestion has been submitted.",
+      });
+      setShowSuggestionDialog(false);
+      setSuggestionForm({ name: '', description: '', email: '' });
+    } catch (error) {
+      console.error('Error submitting suggestion:', error);
+      toast({
+        title: "Error",
+        description: "Failed to submit suggestion. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return <div className="min-h-screen flex flex-col">
@@ -176,9 +214,9 @@ const WisdomGenerator = () => {
           </DialogHeader>
           <div className="grid gap-4">
             {philosophers.map(name => <PhilosopherCard key={name} name={name} description={philosopherDescriptions[name]} imageSrc={philosopherData[name].imageSrc} isSelected={philosopher === name} onClick={() => {
-            setPhilosopher(name);
-            setShowPhilosopherDialog(false);
-          }} />)}
+              setPhilosopher(name);
+              setShowPhilosopherDialog(false);
+            }} />)}
           </div>
           <DialogFooter className="mt-4">
             <Button 
@@ -189,6 +227,61 @@ const WisdomGenerator = () => {
             >
               <SendHorizonal className="h-4 w-4" />
               Suggest a philosopher
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Suggestion Dialog */}
+      <Dialog open={showSuggestionDialog} onOpenChange={setShowSuggestionDialog}>
+        <DialogContent className="sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>Suggest a Philosopher</DialogTitle>
+            <DialogDescription>
+              Help us expand our philosophical horizons
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Philosopher Name</Label>
+              <Input
+                id="name"
+                value={suggestionForm.name}
+                onChange={(e) => setSuggestionForm(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="e.g., Plato"
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="description">Brief Description</Label>
+              <Textarea
+                id="description"
+                value={suggestionForm.description}
+                onChange={(e) => setSuggestionForm(prev => ({ ...prev, description: e.target.value }))}
+                placeholder="Tell us about this philosopher and their teachings..."
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="email">Your Email (optional)</Label>
+              <Input
+                id="email"
+                type="email"
+                value={suggestionForm.email}
+                onChange={(e) => setSuggestionForm(prev => ({ ...prev, email: e.target.value }))}
+                placeholder="To receive updates about your suggestion"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button 
+              onClick={handleSubmitSuggestion} 
+              disabled={!suggestionForm.name || !suggestionForm.description || isSending}
+            >
+              {isSending ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : (
+                <SendHorizonal className="mr-2 h-4 w-4" />
+              )}
+              Submit Suggestion
             </Button>
           </DialogFooter>
         </DialogContent>

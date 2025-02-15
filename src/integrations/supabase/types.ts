@@ -179,6 +179,33 @@ export type Database = {
         }
         Relationships: []
       }
+      "seneca-says_philosopher_suggestions": {
+        Row: {
+          created_at: string
+          description: string
+          id: number
+          name: string
+          status: string
+          submitter_email: string | null
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: never
+          name: string
+          status?: string
+          submitter_email?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: never
+          name?: string
+          status?: string
+          submitter_email?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
