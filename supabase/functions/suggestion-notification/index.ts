@@ -22,7 +22,7 @@ serve(async (req) => {
 
     const { data, error } = await resend.emails.send({
       from: 'Seneca Says <onboarding@resend.dev>',
-      to: ['YOUR_EMAIL@example.com'], // Replace with your email
+      to: ['danny@dannytaylor.io'],
       subject: 'New Philosopher Suggestion',
       html: `
         <h1>New Philosopher Suggestion</h1>
