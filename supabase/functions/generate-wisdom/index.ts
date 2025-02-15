@@ -29,7 +29,7 @@ serve(async (req) => {
           content: systemPrompt
         }, {
           role: "user",
-          content: userInput || "Give me a random piece of wisdom about life."
+          content: userInput || "Give me a random piece of wisdom about life from your perspective. Don't refer to my question or yourself."
         }]
       })
     });
