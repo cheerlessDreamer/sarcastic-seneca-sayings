@@ -26,5 +26,5 @@ export const generateWisdom = async (philosopher: PhilosopherName, userInput?: s
 };
 
 export const shareText = (wisdom: string) => {
-  return `${wisdom}\n\nGet ancient wisdom for modern problems at https://senecasays.club}`;
+  return `${wisdom}\n\nGet ancient wisdom for modern problems at https://senecasays.club`;
 };
