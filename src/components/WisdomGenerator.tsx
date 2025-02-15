@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -112,17 +111,23 @@ const WisdomGenerator = () => {
       </div>
 
       <div className="absolute top-8 right-8" data-aos="fade-left" data-aos-offset="10" data-aos-delay="600">
-        <Button 
-          size="icon" 
-          className="h-20 w-20 rounded-[32px] rounded-br-[12px] shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden relative" 
-          onClick={() => setShowPhilosopherDialog(true)}
-        >
-          <img 
-            src={philosopherData[philosopher].imageSrc} 
-            alt={philosopherData[philosopher].displayName}
-            className="w-full h-full object-cover hover:scale-110 transition-transform"
+        <div className="relative">
+          <Button 
+            size="icon" 
+            className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden" 
+            onClick={() => setShowPhilosopherDialog(true)}
+          >
+            <img 
+              src={philosopherData[philosopher].imageSrc} 
+              alt={philosopherData[philosopher].displayName}
+              className="w-full h-full object-cover hover:scale-110 transition-transform"
+            />
+          </Button>
+          <div 
+            className="absolute bottom-0 right-0 w-6 h-6 bg-background transform translate-x-1/4 translate-y-1/4 rotate-45"
+            style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
           />
-        </Button>
+        </div>
       </div>
 
       <footer className="p-4 flex justify-center gap-4" data-aos="fade-up" data-aos-offset="10" data-aos-delay="800">
