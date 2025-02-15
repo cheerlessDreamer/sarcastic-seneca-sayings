@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -124,8 +125,11 @@ const WisdomGenerator = () => {
             />
           </Button>
           <div 
-            className="absolute bottom-0 right-0 w-6 h-6 bg-background transform translate-x-1/4 translate-y-1/4 rotate-45"
-            style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%)' }}
+            className="absolute bottom-0 right-0 w-6 h-6 transform translate-x-[80%] translate-y-[20%]"
+            style={{ 
+              backgroundColor: 'var(--background)',
+              clipPath: 'polygon(0 0, 0% 100%, 100% 0)'
+            }}
           />
         </div>
       </div>
