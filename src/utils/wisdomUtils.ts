@@ -14,7 +14,7 @@ export const generateWisdom = async (philosopher: PhilosopherName, userInput?: s
     });
 
     if (error) throw error;
-    return data.wisdom;
+    return { wisdom: data.wisdom, reference: data.reference };
   } catch (error) {
     toast({
       title: "Error",

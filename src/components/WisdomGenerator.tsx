@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,10 +21,6 @@ const placeholderQuestions = ["What vexes thy spirit?", "What counsel dost thou 
 const getRandomPlaceholder = () => {
   const randomIndex = Math.floor(Math.random() * placeholderQuestions.length);
   return placeholderQuestions[randomIndex];
-};
-
-const generateReference = () => {
-  return Math.floor(Math.random() * 900000) + 100000;
 };
 
 const WisdomGenerator = () => {
@@ -50,11 +47,9 @@ const WisdomGenerator = () => {
   const handleGenerateWisdom = async (userInput?: string) => {
     setIsLoading(true);
     try {
-      const generatedWisdom = await generateWisdom(philosopher, userInput);
-      const newReference = generateReference();
-      
-      setWisdom(generatedWisdom);
-      setReference(newReference);
+      const result = await generateWisdom(philosopher, userInput);
+      setWisdom(result.wisdom);
+      setReference(result.reference);
       setShowWisdomDialog(true);
       setInput(""); 
       setPlaceholder(getRandomPlaceholder());

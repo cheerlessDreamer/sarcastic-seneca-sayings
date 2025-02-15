@@ -41,6 +41,7 @@ serve(async (req) => {
     }
 
     const generatedWisdom = data.choices[0].message.content;
+    const reference = Math.floor(Math.random() * 900000) + 100000;
 
     // Create Supabase client
     const supabaseClient = createClient(
@@ -55,14 +56,14 @@ serve(async (req) => {
         philosopher: philosopher,
         philosopher_instructions: systemPrompt,
         response: generatedWisdom,
-        reference: Math.floor(Math.random() * 900000) + 100000,
+        reference: reference,
         request: userInput
       });
 
     if (dbError) throw dbError;
 
     return new Response(
-      JSON.stringify({ wisdom: generatedWisdom }),
+      JSON.stringify({ wisdom: generatedWisdom, reference: reference }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error) {
