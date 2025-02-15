@@ -1,11 +1,12 @@
 
 # Seneca Says... - Modern Stoic Wisdom Generator
 
-A modern take on ancient Stoic wisdom, delivering sarcastic and witty philosophical advice for contemporary problems. This project uses OpenAI's GPT-4 to generate Stoic-inspired wisdom with a humorous twist, channeling the spirit of Seneca in a way that speaks to today's challenges.
+A modern take on ancient Stoic wisdom, delivering sarcastic and witty philosophical advice for contemporary problems. This project uses Supabase Edge Functions with GPT-4 to generate Stoic-inspired wisdom with a humorous twist, channeling the spirit of Seneca, Marcus Aurelius, and Epicurus in a way that speaks to today's challenges.
 
 ## Features
 
-- 🤖 AI-powered wisdom generation using GPT-4
+- 🎯 Choose from multiple Stoic philosophers (Seneca, Marcus Aurelius, Epicurus)
+- 🤖 AI-powered wisdom generation using GPT-4 via Supabase Edge Functions
 - 🌙 Dark/Light mode support
 - 📋 Easy copying of generated wisdom
 - 📱 Share functionality across different platforms
@@ -16,7 +17,7 @@ A modern take on ancient Stoic wisdom, delivering sarcastic and witty philosophi
 ### Prerequisites
 
 - Node.js & npm - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-- OpenAI API key - [get one here](https://platform.openai.com/api-keys)
+- Supabase account - [sign up here](https://supabase.com)
 
 ### Installation
 
@@ -36,7 +37,7 @@ npm run dev
 
 ### Configuration
 
-The application requires an OpenAI API key to function. When you first run the application, you'll be prompted to enter your API key. This key is stored securely in your browser's local storage.
+The application uses Supabase Edge Functions for the wisdom generation. You'll need to set up your Supabase project and deploy the Edge Functions included in the `/supabase/functions` directory.
 
 ## Technology Stack
 
@@ -45,30 +46,38 @@ The application requires an OpenAI API key to function. When you first run the a
 - **UI Components**: shadcn/ui
 - **Styling**: Tailwind CSS
 - **Icons**: Lucide React
-- **API Integration**: OpenAI GPT-4
+- **Backend**: Supabase Edge Functions
+- **AI Integration**: OpenAI GPT-4
 
 ## Project Structure
 
 ```
 src/
   ├── components/        # React components
-  ├── pages/            # Page components
-  ├── lib/              # Utility functions
-  └── styles/           # CSS and Tailwind styles
+  ├── constants/        # Constant values and configurations
+  ├── utils/           # Utility functions
+  ├── hooks/           # Custom React hooks
+  └── styles/          # CSS and Tailwind styles
+supabase/
+  └── functions/       # Edge Functions for wisdom generation
 ```
 
-## Customizing the AI Prompt
+## Features in Detail
 
-The AI system uses a specific prompt to generate Stoic wisdom. You can modify this by updating the system message in the `WisdomGenerator.tsx` component:
+### Multiple Philosophers
 
-```typescript
-{
-  role: "system",
-  content: "You are Seneca, the Stoic philosopher, but with a sarcastic and modern twist..."
-}
-```
+Choose between three different philosophical perspectives:
+- **Seneca**: Practical wisdom with a dash of sarcasm
+- **Marcus Aurelius**: Stoic reflection with imperial authority
+- **Epicurus**: Hedonistic wisdom focused on sustainable happiness
 
-Feel free to adjust this prompt to change the AI's personality or response style.
+### AI-Powered Wisdom
+
+The wisdom generation uses GPT-4 through Supabase Edge Functions, with carefully crafted prompts to maintain each philosopher's unique voice and perspective while addressing modern concerns.
+
+### Theme Support
+
+Built-in dark and light mode support that persists across sessions, with smooth transitions between themes.
 
 ## Contributing
 
@@ -87,4 +96,4 @@ This project is open source and available under the MIT License.
 - Built with [Lovable](https://lovable.dev)
 - UI components from [shadcn/ui](https://ui.shadcn.com)
 - Icons from [Lucide](https://lucide.dev)
-
+- Animation library [AOS](https://michalsnik.github.io/aos/)
