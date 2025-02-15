@@ -18,11 +18,11 @@ export const WisdomDialog = ({ open, onOpenChange, wisdom, reference, philosophe
       <DialogContent className="sm:max-w-2xl">
         <DialogHeader>
           <DialogTitle>{philosopherData[philosopher].displayName} says…</DialogTitle>
-          {reference && (
+          {/* {reference && (
             <DialogDescription>
               Reference: #{reference}
             </DialogDescription>
-          )}
+          )} */}
         </DialogHeader>
         <div className="mt-4">
           <p className="font-serif text-xl md:text-2xl text-foreground italic leading-relaxed mb-6">
