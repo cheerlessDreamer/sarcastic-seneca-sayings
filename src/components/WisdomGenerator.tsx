@@ -114,7 +114,7 @@ const WisdomGenerator = () => {
       <div className="absolute top-8 right-8" data-aos="fade-left" data-aos-offset="10" data-aos-delay="600">
         <Button 
           size="icon" 
-          className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden" 
+          className="h-20 w-20 rounded-[24px] rounded-br-[8px] shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden relative" 
           onClick={() => setShowPhilosopherDialog(true)}
         >
           <img 
