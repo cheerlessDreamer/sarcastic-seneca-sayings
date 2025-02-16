@@ -1,4 +1,3 @@
-
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ShareButtons } from "../ShareDialog";
 import { philosopherData } from "@/constants/philosophers";

@@ -1,4 +1,3 @@
-
 import { toast } from "@/components/ui/use-toast";
 import { PhilosopherName, philosopherData } from "@/constants/philosophers";
 import { supabase } from "@/integrations/supabase/client";
