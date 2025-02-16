@@ -152,6 +152,7 @@ export type Database = {
       "seneca-says": {
         Row: {
           created_at: string
+          feedback: number | null
           id: number
           philosopher: string | null
           philosopher_instructions: string | null
@@ -161,6 +162,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          feedback?: number | null
           id?: number
           philosopher?: string | null
           philosopher_instructions?: string | null
@@ -170,6 +172,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          feedback?: number | null
           id?: number
           philosopher?: string | null
           philosopher_instructions?: string | null
