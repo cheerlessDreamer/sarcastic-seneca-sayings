@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
-import { Loader2, Quote, Info, ArrowRight } from "lucide-react";
+import { Loader2, Quote, Info, ArrowRight, X } from "lucide-react";
 import { PhilosopherIllustration } from "./PhilosopherIllustration";
 import { generateWisdom } from "@/utils/wisdomUtils";
 import { philosopherData, type PhilosopherName } from "@/constants/philosophers";
@@ -129,6 +129,16 @@ const WisdomGenerator = () => {
         <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent" onClick={() => setShowAboutDialog(true)}>
           <Info className="h-6 w-6 text-primary" />
         </Button>
+
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="rounded-full hover:bg-accent"
+          onClick={() => window.open("https://twitter.com/_seneca_says", "_blank")}
+        >
+          <X className="h-6 w-6 text-primary" />
+        </Button>
+        
         <ThemeToggle />
       </footer>
 
