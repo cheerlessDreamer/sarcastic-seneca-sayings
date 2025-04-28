@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -51,7 +50,7 @@ const WisdomGenerator = () => {
       setWisdom(result.wisdom);
       setReference(result.reference);
       setShowWisdomDialog(true);
-      setInput(""); 
+      setInput("");
       setPlaceholder(getRandomPlaceholder());
     } catch (error) {
       console.error('Error generating wisdom:', error);
@@ -77,16 +76,16 @@ const WisdomGenerator = () => {
           </div>
 
           <Card className="p-6 bg-background/80 backdrop-blur border" data-aos="fade-up" data-aos-offset="10" data-aos-delay="200">
-            <Textarea 
-              placeholder={placeholder} 
-              value={input} 
-              onChange={e => setInput(e.target.value)} 
-              className="min-h-[100px] mb-4 font-sans" 
+            <Textarea
+              placeholder={placeholder}
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              className="min-h-[100px] mb-4 font-sans"
             />
-            
-            <Button 
-              onClick={() => handleGenerateWisdom(input.trim() || undefined)} 
-              className="w-full" 
+
+            <Button
+              onClick={() => handleGenerateWisdom(input.trim() || undefined)}
+              className="w-full"
               disabled={isLoading}
             >
               {isLoading ? (
@@ -112,42 +111,56 @@ const WisdomGenerator = () => {
       </div>
 
       <div className="absolute top-8 right-8" data-aos="fade-left" data-aos-offset="10" data-aos-delay="600">
-        <Button 
-          size="icon" 
-          className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden" 
+        <Button
+          size="icon"
+          className="h-20 w-20 rounded-full shadow-lg hover:shadow-xl transition-shadow p-0 overflow-hidden"
           onClick={() => setShowPhilosopherDialog(true)}
         >
-          <img 
-            src={philosopherData[philosopher].imageSrc} 
+          <img
+            src={philosopherData[philosopher].imageSrc}
             alt={philosopherData[philosopher].displayName}
             className="w-full h-full object-cover hover:scale-110 transition-transform"
           />
         </Button>
       </div>
 
-      <footer className="p-4 flex justify-center gap-4" data-aos="fade-up" data-aos-offset="10" data-aos-delay="800">
-        <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent" onClick={() => setShowAboutDialog(true)}>
-          <Info className="h-6 w-6 text-primary" />
-        </Button>
-
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="rounded-full hover:bg-accent"
-          onClick={() => window.open("https://twitter.com/_seneca_says", "_blank")}
+      <footer className="p-4 flex flex-col items-center gap-4" data-aos="fade-up" data-aos-offset="10" data-aos-delay="800">
+        <a
+          href="https://buymeacoffee.com/dannytaylor"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:opacity-90 transition-opacity"
         >
-          <X className="h-6 w-6 text-primary" />
-        </Button>
-        
-        <ThemeToggle />
+          <img
+            src="/bmc-button.png"
+            alt="Buy me a coffee"
+            className="h-10 w-auto"
+          />
+        </a>
+        <div className="flex gap-4">
+          <Button variant="ghost" size="icon" className="rounded-full hover:bg-accent" onClick={() => setShowAboutDialog(true)}>
+            <Info className="h-6 w-6 text-primary" />
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full hover:bg-accent"
+            onClick={() => window.open("https://twitter.com/_seneca_says", "_blank")}
+          >
+            <X className="h-6 w-6 text-primary" />
+          </Button>
+
+          <ThemeToggle />
+        </div>
       </footer>
 
-      <AboutDialog 
-        open={showAboutDialog} 
-        onOpenChange={setShowAboutDialog} 
+      <AboutDialog
+        open={showAboutDialog}
+        onOpenChange={setShowAboutDialog}
       />
 
-      <WisdomDialog 
+      <WisdomDialog
         open={showWisdomDialog}
         onOpenChange={setShowWisdomDialog}
         wisdom={wisdom}
@@ -155,7 +168,7 @@ const WisdomGenerator = () => {
         philosopher={philosopher}
       />
 
-      <PhilosopherDialog 
+      <PhilosopherDialog
         open={showPhilosopherDialog}
         onOpenChange={setShowPhilosopherDialog}
         currentPhilosopher={philosopher}
@@ -166,7 +179,7 @@ const WisdomGenerator = () => {
         }}
       />
 
-      <SuggestionDialog 
+      <SuggestionDialog
         open={showSuggestionDialog}
         onOpenChange={setShowSuggestionDialog}
       />
